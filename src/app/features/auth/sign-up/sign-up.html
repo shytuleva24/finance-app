@@ -1,0 +1,78 @@
+<h1 class="auth-form-title" id="register-title">Sign Up</h1>
+
+<form
+  class="auth-form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  novalidate
+  aria-labelledby="register-title"
+>
+  <div class="auth-form-fields">
+    <!-- Name -->
+    <div class="auth-form-field">
+      <app-text-input
+        label="Name"
+        inputId="name"
+        type="text"
+        placeholder="e.g. Alex Johnson"
+        autocomplete="name"
+        [control]="$any(name)"
+        [errorMessages]="{
+          required: 'Name is required',
+        }"
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="auth-form-field">
+      <app-text-input
+        label="Email"
+        inputId="email"
+        type="email"
+        placeholder="e.g. alex@example.com"
+        autocomplete="email"
+        [control]="$any(email)"
+        [errorMessages]="{
+          required: 'Email is required',
+          pattern: 'Please enter a valid email address',
+        }"
+      />
+    </div>
+
+    <!-- Password -->
+    <div class="auth-form-field">
+      <app-password-input
+        label="Create Password"
+        inputId="password"
+        placeholder="Enter at least 8 characters"
+        autocomplete="new-password"
+        [control]="$any(password)"
+        [errorMessages]="{
+          required: 'Password is required',
+          minlength: 'Password must be at least 8 characters',
+        }"
+      />
+      <p class="auth-password-hint">Passwords must be at least 8 characters</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="auth-error" role="alert" aria-live="polite">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  <app-primary-button
+    type="submit"
+    [loading]="isSubmitting()"
+    [disabled]="form.invalid"
+    aria-label="Create your account"
+  >
+    Create Account
+  </app-primary-button>
+
+  <p class="auth-form-footer">
+    Already have an account?
+    <a routerLink="/auth/login" class="auth-link"> Login </a>
+  </p>
+</form>

@@ -1,0 +1,64 @@
+<header class="auth-form-header">
+  <h1 class="auth-form-title" id="login-title">Login</h1>
+  <p class="auth-hint">Tip: For testing, use <strong>user</strong> for both email and password.</p>
+</header>
+
+<form
+  class="auth-form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  novalidate
+  aria-labelledby="login-title"
+>
+  <div class="auth-form-fields">
+    <!-- Email -->
+    <div class="auth-form-field">
+      <app-text-input
+        label="Email"
+        inputId="email"
+        type="email"
+        placeholder="e.g. alex@example.com"
+        autocomplete="email"
+        [control]="$any(email)"
+        [errorMessages]="{
+          required: 'Email is required',
+          pattern: 'Please enter a valid email address',
+        }"
+      />
+    </div>
+
+    <!-- Password -->
+    <div class="auth-form-field">
+      <app-password-input
+        label="Password"
+        inputId="password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        [control]="$any(password)"
+        [errorMessages]="{
+          required: 'Password is required',
+        }"
+      />
+
+      @if (errorMessage()) {
+        <p class="auth-error" role="alert" aria-live="polite">
+          {{ errorMessage() }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <app-primary-button
+    type="submit"
+    [loading]="isSubmitting()"
+    [disabled]="form.invalid"
+    aria-label="Log in to your account"
+  >
+    Login
+  </app-primary-button>
+
+  <p class="auth-form-footer">
+    Need to create an account?
+    <a routerLink="/auth/sign-up" class="auth-link"> Sign Up </a>
+  </p>
+</form>

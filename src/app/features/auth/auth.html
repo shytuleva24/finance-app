@@ -1,0 +1,39 @@
+<main class="auth">
+  <div class="auth__container">
+    <div class="auth__grid">
+      <!-- LEFT PROMO AREA -->
+      <aside class="auth__promo" aria-label="Personal finance app benefits">
+        <header class="auth__promo-header">
+          <span class="auth__logo">finance</span>
+        </header>
+
+        <div class="auth__promo-content">
+          <figure class="auth__illustration">
+            <img
+              ngSrc="assets/images/illustration-authentication.svg"
+              alt="Illustration showing budgeting and savings"
+              width="400"
+              height="657"
+              priority
+            />
+          </figure>
+
+          <div class="auth__promo-text">
+            <h1 class="auth__title">Keep track of your money and save for your future</h1>
+            <p class="auth__description">
+              Personal finance app puts you in control of your spending. Track transactions, set
+              budgets, and grow your savings pots with ease.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- RIGHT FORM AREA -->
+      <section class="auth__form" aria-label="Authentication form">
+        <div class="auth__form-card">
+          <router-outlet />
+        </div>
+      </section>
+    </div>
+  </div>
+</main>

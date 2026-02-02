@@ -1,12 +1,10 @@
 @use 'styles/mixins' as *;
-@use 'styles/mixins' as *;
+
+:host {
+  display: block;
+}
 
 .auth {
-  &-hint {
-    @include text-preset-5();
-    color: var(--grey-500);
-  }
-
   &-form {
     display: flex;
     flex-direction: column;
@@ -18,15 +16,9 @@
       gap: 16px;
     }
 
-    &-header {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
     &-title {
       @include text-preset-1();
+      margin-bottom: 32px;
     }
 
     &-footer {
@@ -34,18 +26,24 @@
       color: var(--grey-500);
       text-align: center;
     }
-
-    &-hint {
-      @include text-preset-5();
-      color: var(--grey-500);
-      text-align: center;
-      margin-top: -16px; // Pull closer to fields
-    }
   }
 
   &-link {
     @include text-preset-4-bold();
     color: var(--grey-900);
+  }
+
+  &-password-hint {
+    @include text-preset-5();
+    color: var(--grey-500);
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  &-error {
+    @include text-preset-5();
+    color: var(--red);
+    text-align: center;
   }
 
   &-separator {

@@ -1,0 +1,13 @@
+<div class="form-field">
+    <label [for]="inputId()" class="form-label">
+        {{ label() }}
+    </label>
+    <input [id]="inputId()" [type]="type()" [placeholder]="placeholder()" [autocomplete]="autocomplete()"
+        [formControl]="control()" [attr.aria-invalid]="ariaInvalid()" [attr.aria-describedby]="ariaDescribedBy()"
+        class="form-input" />
+    @if (hasError()) {
+    <p [id]="inputId() + '-error'" class="form-error" role="alert">
+        {{ errorMessage() }}
+    </p>
+    }
+</div>

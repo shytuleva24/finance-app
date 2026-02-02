@@ -16,15 +16,16 @@
         "browser": "src/main.ts",
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["src/app", "src"]
+        },
         "assets": [
           {
             "glob": "**/*",
             "input": "public"
           }
         ],
-        "styles": [
-          "src/styles.scss"
-        ],
+        "styles": ["src/styles.scss"],
         "server": "src/main.server.ts",
         "outputMode": "server",
         "ssr": {
@@ -55,9 +56,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
     },
     "serve": {
       "executor": "@angular/build:dev-server",
@@ -77,14 +76,9 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": [
-          "src/**/*.ts",
-          "src/**/*.html"
-        ]
+        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
       },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     }
   }
 }

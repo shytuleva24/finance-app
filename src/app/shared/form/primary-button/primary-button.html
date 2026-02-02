@@ -1,0 +1,7 @@
+<button [type]="type()" [disabled]="disabled() || loading()" class="primary-button">
+  @if (loading()) {
+    <span>...</span>
+  } @else {
+    <ng-content />
+  }
+</button>

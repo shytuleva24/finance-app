@@ -1,0 +1,71 @@
+dialog {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 560px;
+  width: 90%;
+  background-color: var(--white);
+  margin: auto; // Ensures centering in most browsers
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  // Mobile adaptive
+  @media (max-width: 768px) {
+    width: 95%;
+    border-radius: 8px;
+  }
+}
+
+.modal-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    padding: 24px;
+    gap: 16px;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--grey-900);
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,13 @@
+<dialog #dialogRef (click)="handleBackdropClick($event)" (close)="close()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ title() }}</h2>
+      <button class="close-btn" (click)="close()">
+        <img src="assets/images/icon-close-modal.svg" alt="Close" />
+      </button>
+    </div>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</dialog>

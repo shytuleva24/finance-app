@@ -5,10 +5,9 @@ import { loginGuard } from './core/guards/login.guard';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routes').then((m) => m.authRoutes),
     canActivate: [loginGuard],
-    title: 'Sign in | Personal Finance',
   },
   {
     path: 'overview',
@@ -17,5 +16,6 @@ export const routes: Routes = [
     title: 'Overview | Personal Finance',
   },
   { path: '', redirectTo: 'overview', pathMatch: 'full' },
+  { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: 'overview' },
 ];

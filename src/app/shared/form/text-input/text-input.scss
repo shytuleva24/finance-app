@@ -1,0 +1,23 @@
+@use 'styles/_mixins' as *;
+
+:host {
+  display: block;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-label {
+  @include form-label;
+}
+
+.form-input {
+  @include form-input;
+}
+
+.form-error {
+  @include form-error;
+}
