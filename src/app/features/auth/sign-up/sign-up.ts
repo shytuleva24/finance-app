@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { PasswordInput } from '@app/shared/form/password-input/password-input';
-import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
-import { TextInputComponent } from '@app/shared/form/text-input/text-input';
+import { PasswordInput } from '@app/features/shared/form/password-input/password-input';
+import { PrimaryButton } from '@app/features/shared/form/primary-button/primary-button';
+import { TextInputComponent } from '@app/features/shared/form/text-input/text-input';
 
 @Component({
   selector: 'app-sign-up',

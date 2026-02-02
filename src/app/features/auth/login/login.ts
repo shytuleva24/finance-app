@@ -10,9 +10,9 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@app/core/auth/auth.service';
-import { PasswordInput } from '@app/shared/form/password-input/password-input';
-import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
-import { TextInputComponent } from '@app/shared/form/text-input/text-input';
+import { PasswordInput } from '@app/features/shared/form/password-input/password-input';
+import { PrimaryButton } from '@app/features/shared/form/primary-button/primary-button';
+import { TextInputComponent } from '@app/features/shared/form/text-input/text-input';
 
 @Component({
   selector: 'app-login',

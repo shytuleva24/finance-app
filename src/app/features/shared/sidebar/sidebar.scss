@@ -1,0 +1,268 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 300px;
+  background-color: var(--grey-900);
+  padding: 40px 0;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 16px 16px 0;
+  color: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 32px;
+
+  &.collapsed {
+    width: 88px;
+    gap: 32px;
+
+    .sidebar-header,
+    .nav-item,
+    .sidebar-footer {
+      padding: 0;
+      justify-content: center;
+    }
+
+    .nav-link,
+    .footer-btn {
+      padding: 16px 0;
+      justify-content: center;
+      width: calc(100% - 4px);
+    }
+
+    .nav-label {
+      display: none;
+    }
+
+    .nav-link.active {
+      &::before {
+        height: 100%;
+        width: 4px;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  transition: padding 0.3s ease;
+  padding-left: 32px;
+
+  .logo {
+    height: 22px;
+  }
+
+  .logo-small {
+    height: 32px;
+    padding: 0;
+  }
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Custom scrollbar for a cleaner look */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 4px;
+  padding-right: 4px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 32px;
+  text-decoration: none;
+  color: var(--grey-300);
+  border-radius: 0 12px 12px 0;
+  @include text-preset-3();
+  transition: all 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--white);
+  }
+
+  &.active {
+    background-color: var(--white);
+    color: var(--grey-900);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background-color: var(--green);
+    }
+
+    .nav-icon {
+      filter: brightness(0) saturate(100%) invert(8%) sepia(5%) saturate(1210%) hue-rotate(202deg) brightness(97%) contrast(92%);
+    }
+  }
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.footer-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 32px;
+  background: none;
+  border: none;
+  color: var(--grey-300);
+  cursor: pointer;
+  @include text-preset-3();
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+  border-radius: 0 12px 12px 0;
+
+  &:hover {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Tablet & Mobile styles */
+@include tablet {
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: auto;
+    flex-direction: row;
+    padding: 8px 16px 0;
+    border-radius: 8px 8px 0 0;
+    justify-content: center;
+
+    .sidebar-header,
+    .sidebar-footer {
+      display: none;
+    }
+
+    .sidebar-nav {
+      width: 100%;
+    }
+
+    .nav-list {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      width: 100%;
+    }
+
+    .nav-item {
+      margin-bottom: 0;
+      padding: 0;
+      flex: 1;
+      max-width: 120px;
+    }
+
+    .nav-link {
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 8px;
+      border-radius: 8px 8px 0 0;
+      text-align: center;
+      @include text-preset-5-bold();
+      background-color: transparent;
+      white-space: nowrap;
+
+      &.active {
+        background-color: var(--white) !important;
+        color: var(--grey-900) !important;
+
+        &::before {
+          content: '' !important;
+          position: absolute !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          top: auto !important;
+          width: 100% !important;
+          height: 4px !important;
+          background-color: var(--green) !important;
+        }
+      }
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+@include mobile {
+  .sidebar {
+    padding: 8px 16px;
+
+    .nav-link {
+      padding: 12px 4px;
+
+      .nav-label {
+        display: none;
+      }
+    }
+
+    .nav-item {
+      max-width: none;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed()">
+  <div class="sidebar-header">
+    @if (!isCollapsed()) {
+    <img src="assets/images/logo-large.svg" alt="Finance Logo" class="logo">
+    } @else {
+    <img src="assets/images/logo-small.svg" alt="Finance Logo" class="logo-small">
+    }
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      @for (item of navItems; track item.route) {
+      <li class="nav-item">
+        <a [routerLink]="item.route" routerLinkActive="active" class="nav-link">
+          <img [src]="item.icon" alt="" aria-hidden="true" class="nav-icon">
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button (click)="toggleSidebar()" class="footer-btn minimize-btn"
+      [attr.aria-label]="isCollapsed() ? 'Expand Menu' : 'Minimize Menu'">
+      <img src="assets/images/icon-minimize-menu.svg" alt="" aria-hidden="true" class="nav-icon"
+        [class.rotated]="isCollapsed()">
+      @if (!isCollapsed()) {
+      <span class="nav-label">Minimize Menu</span>
+      }
+    </button>
+  </div>
+</aside>
