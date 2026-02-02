@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "lint": "ng lint",
     "serve:ssr:finance-app": "node dist/finance-app/server/server.mjs"
   },
   "prettier": {
@@ -24,6 +25,8 @@
   "private": true,
   "packageManager": "npm@10.9.2",
   "dependencies": {
+    "chart.js": "^4.4.6",
+    "ng2-charts": "^8.0.0",
     "@angular/common": "^21.1.0",
     "@angular/compiler": "^21.1.0",
     "@angular/core": "^21.1.0",
@@ -37,12 +40,29 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "^21.2.0",
+    "@angular-eslint/eslint-plugin": "^21.2.0",
+    "@angular-eslint/eslint-plugin-template": "^21.2.0",
+    "@angular-eslint/schematics": "^21.2.0",
+    "@angular-eslint/template-parser": "^21.2.0",
+    "angular-eslint": "^21.2.0",
+    "@eslint/js": "^9.15.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "typescript-eslint": "^8.15.0",
+    "@angular-devkit/core": "^21.1.0",
+    "@angular-devkit/schematics": "^21.1.0",
     "@angular/build": "^21.1.0",
     "@angular/cli": "^21.1.0",
     "@angular/compiler-cli": "^21.1.0",
+    "@nx/angular": "22.4.4",
+    "@nx/workspace": "22.4.4",
+    "@schematics/angular": "^21.1.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "jsdom": "^27.1.0",
+    "nx": "22.4.4",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

@@ -1,0 +1,58 @@
+{
+  "workbench.colorTheme": "Default Dark+",
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "editor.trimAutoWhitespace": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+
+  // ✅ Автоимпорты / подсказки импорта (как в WebStorm)
+  "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "javascript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "javascript.preferences.importModuleSpecifier": "shortest",
+
+  // ✅ Быстрый фикс (⌘.) и подсказки
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggestSelection": "first",
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+
+  // ✅ На сохранение: ESLint + добавить/организовать импорты
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always",
+    "source.addMissingImports": "always"
+  },
+
+  // Настройка для стандартного HTML
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.formatOnSave": true
+  },
+
+  // Настройка для Angular HTML (часто Cursor видит файлы именно так)
+  "[angular]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  "eslint.validate": ["typescript", "html"],
+  "eslint.format.enable": false,
+  "prettier.requireConfig": true
+}
