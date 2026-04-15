@@ -29,6 +29,7 @@ export class SettingsCategories {
 
   deleteCategory(id: string): void {
     if (confirm('Are you sure you want to delete this category?')) {
+      this.categoryService.deleteCategory(id);
     }
   }
 

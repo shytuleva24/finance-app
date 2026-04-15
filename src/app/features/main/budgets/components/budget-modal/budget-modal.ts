@@ -98,16 +98,6 @@ export class BudgetModal {
   async submit(): Promise<void> {
     if (this.form.invalid) return;
 
-    const val = this.form.getRawValue();
-    const budgetData: Omit<Budget, 'id'> & { id?: string } = {
-      id: this.editingBudgetId() ?? undefined,
-      type: val.type,
-      categoryId: val.categoryId,
-      limit: val.limit,
-      currency: val.currency,
-      description: val.description,
-    };
-
     this.close();
   }
 }

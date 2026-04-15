@@ -63,4 +63,8 @@ export class CategoryService {
   getCategoryById(id: string): Category | undefined {
     return this.categories().find((c) => c.id === id);
   }
+
+  deleteCategory(id: string): void {
+    this.categories.update((cats) => cats.filter((c) => c.id !== id));
+  }
 }

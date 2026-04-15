@@ -65,6 +65,12 @@ export class Modal {
     }
   }
 
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.close();
+    }
+  }
+
   close(): void {
     this.closed.emit();
   }
