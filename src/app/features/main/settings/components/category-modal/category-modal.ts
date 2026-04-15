@@ -17,7 +17,7 @@ import { MAX_TEXT_LENGTH } from '@app/core/constants/form.constants';
 export class CategoryModal {
   isOpen = signal(false);
   isEditMode = signal(false);
-  editingCategoryId = signal<string | null>(null);
+  editingCategoryId = signal<number | null>(null);
 
   readonly availableColors = [
     { name: 'Green', color: '#277C78' },
@@ -59,7 +59,7 @@ export class CategoryModal {
       nonNullable: true,
       validators: [Validators.required, Validators.maxLength(MAX_TEXT_LENGTH)],
     }),
-    type: new FormControl<CategoryType>('expense', {
+    type: new FormControl<CategoryType>('OUTCOME', {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -84,7 +84,7 @@ export class CategoryModal {
       this.editingCategoryId.set(null);
       this.form.reset({
         name: '',
-        type: 'expense',
+        type: 'INCOME',
         color: '#277C78',
       });
       this.form.controls.type.enable();

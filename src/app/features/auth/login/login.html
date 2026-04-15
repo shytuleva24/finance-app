@@ -12,11 +12,10 @@
         type="email"
         placeholder="e.g. alex@example.com"
         autocomplete="email"
-        [value]="loginData().email"
-        (valueChange)="updateEmail($event)"
-        [error]="form.email().errors()[0]?.message || null"
-        [touched]="form.email().touched()"
-        [maxLength]="MAX_TEXT_LENGTH"
+        [value]="form.data().email"
+        (valueChange)="form.updateField('email', $event)"
+        [serverError]="form.errors().email"
+        [validations]="emailValidations"
       />
     </div>
 
@@ -27,22 +26,21 @@
         inputId="password"
         placeholder="Enter your password"
         autocomplete="current-password"
-        [value]="loginData().password"
-        (valueChange)="updatePassword($event)"
-        [error]="form.password().errors()[0]?.message || null"
-        [touched]="form.password().touched()"
-        [maxLength]="MAX_TEXT_LENGTH"
+        [value]="form.data().password"
+        (valueChange)="form.updateField('password', $event)"
+        [serverError]="form.errors().password"
+        [validations]="passwordValidations"
       />
     </div>
 
-    @if (errorMessage()) {
+    @if (form.globalError()) {
       <p class="auth-error" role="alert" aria-live="polite">
-        {{ errorMessage() }}
+        {{ form.globalError() }}
       </p>
     }
   </div>
 
-  <app-primary-button type="submit" [loading]="isSubmitting()" [disabled]="form().invalid()">
+  <app-primary-button type="submit" [loading]="form.isSubmitting()" [disabled]="!form.isValid()">
     Login
   </app-primary-button>
 

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { CategoryService } from '@app/core/services/category.service';
 import { BudgetService } from '@app/core/services/budget.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { BudgetService } from '@app/core/services/budget.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetSummary {
-  private readonly categoryService = inject(CategoryService);
   protected readonly budgetService = inject(BudgetService);
 
   /**
@@ -35,7 +33,7 @@ export class BudgetSummary {
     return `conic-gradient(${segments.join(', ')})`;
   });
 
-  getCategoryName(categoryId: string): string {
-    return this.categoryService.getCategoryById(categoryId)?.name ?? 'Other';
+  getCategoryName(_categoryId: string): string {
+    return 'Other';
   }
 }

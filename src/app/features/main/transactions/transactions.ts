@@ -19,14 +19,15 @@ export class Transactions {
   private readonly modal = viewChild.required(TransactionModal);
 
   readonly transactions = this.transactionService.allTransactions;
+  readonly categories = this.categoryService.getCategories();
 
-  getCategoryName(id: string): string {
-    return this.categoryService.getCategoryById(id)?.name ?? 'Other';
-  }
-
-  getCategoryColor(id: string): string {
-    return this.categoryService.getCategoryById(id)?.color ?? '#696868';
-  }
+  // getCategoryName(id: string): string {
+  //   return this.categoryService.getCategoryById(id)?.name ?? 'Other';
+  // }
+  //
+  // getCategoryColor(id: string): string {
+  //   return this.categoryService.getCategoryById(id)?.color ?? '#696868';
+  // }
 
   openAddModal(): void {
     this.modal().open();

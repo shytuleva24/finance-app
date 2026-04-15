@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { AUTH_URL } from '../constants/api.constants';
-import { BrowserService } from '../services/browser.service';
+import { BrowserService } from './browser.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,9 +13,8 @@ export class AuthService {
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USER_NAME_KEY = 'auth_user_name';
 
-  private readonly token = signal<string | null>(this.getStoredToken());
   private readonly name = signal<string | null>(this.getStoredName());
-
+  readonly token = signal<string | null>(this.getStoredToken());
   readonly isAuthenticated = computed(() => this.token() !== null);
   readonly userName = this.name.asReadonly();
 

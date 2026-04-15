@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SettingsCategories } from '@app/features/main/settings/components/categories/settings-categories';
-import { AuthService } from '@app/core/auth/auth.service';
+import { AuthService } from '@app/core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

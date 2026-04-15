@@ -18,12 +18,12 @@
         @for (tx of transactions(); track tx.id) {
           <tr>
             <td class="tx-name">
-              <div class="avatar" [style.background-color]="getCategoryColor(tx.categoryId)">
+              <div class="avatar" [style.background-color]="">
                 {{ tx.description.charAt(0) }}
               </div>
               <span>{{ tx.description }}</span>
             </td>
-            <td>{{ getCategoryName(tx.categoryId) }}</td>
+            <td>1</td>
             <td class="tx-date">{{ tx.date | date: 'dd MMM yyyy' }}</td>
             <td class="text-right tx-amount" [class.income]="tx.type === 'income'">
               {{ tx.type === 'income' ? '+' : '-' }}{{ tx.amount | currency: tx.currency }}

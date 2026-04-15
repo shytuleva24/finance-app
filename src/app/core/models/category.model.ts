@@ -1,13 +1,11 @@
-export type CategoryType = 'expense' | 'income';
+export type CategoryType = 'OUTCOME' | 'INCOME';
 
 /**
  * Represents a financial category for classifying transactions and budgets.
  */
 export interface Category {
-  readonly id: string;
+  readonly id: number;
   readonly name: string;
   readonly type: CategoryType;
   readonly color: string;
-  readonly icon?: string;
-  readonly isSystem: boolean;
 }

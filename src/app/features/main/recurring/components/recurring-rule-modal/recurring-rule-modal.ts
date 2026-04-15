@@ -45,8 +45,8 @@ export class RecurringRuleModal {
   filteredCategories = computed(() => {
     const type = this.form.get('type')?.value;
     return type === 'income'
-      ? this.categoryService.getIncomeCategories()
-      : this.categoryService.getExpenseCategories();
+      ? this.categoryService.getCategories()
+      : this.categoryService.getCategories();
   });
 
   open(): void {

@@ -1,76 +1,59 @@
 <h1 class="auth-form-title" id="register-title">Sign Up</h1>
 
-<form
-  class="auth-form"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
-  novalidate
-  aria-labelledby="register-title"
->
+<form class="auth-form" (submit)="onSubmit($event)" novalidate aria-labelledby="register-title">
   <div class="auth-form-fields">
     <!-- Name -->
     <div class="auth-form-field">
-      <!--      <app-text-input-->
-      <!--        label="Name"-->
-      <!--        inputId="name"-->
-      <!--        type="text"-->
-      <!--        placeholder="e.g. Alex Johnson"-->
-      <!--        autocomplete="name"-->
-      <!--        [control]="form.controls.name"-->
-      <!--        [maxLength]="MAX_TEXT_LENGTH"-->
-      <!--        [errorMessages]="{-->
-      <!--          required: 'Name is required',-->
-      <!--        }"-->
-      <!--      />-->
+      <app-text-input
+        label="Name"
+        inputId="name"
+        placeholder="e.g. Alex Johnson"
+        autocomplete="name"
+        [value]="form.data().name"
+        (valueChange)="form.updateField('name', $event)"
+        [serverError]="form.errors().name"
+        [validations]="nameValidations"
+      />
     </div>
 
     <!-- Email -->
     <div class="auth-form-field">
-      <!--      <app-text-input-->
-      <!--        label="Email"-->
-      <!--        inputId="email"-->
-      <!--        type="email"-->
-      <!--        placeholder="e.g. alex@example.com"-->
-      <!--        autocomplete="email"-->
-      <!--        [control]="form.controls.email"-->
-      <!--        [maxLength]="MAX_TEXT_LENGTH"-->
-      <!--        [errorMessages]="{-->
-      <!--          required: 'Email is required',-->
-      <!--          pattern: 'Please enter a valid email address',-->
-      <!--        }"-->
-      <!--      />-->
+      <app-text-input
+        label="Email"
+        inputId="email"
+        type="email"
+        placeholder="e.g. alex@example.com"
+        autocomplete="email"
+        [value]="form.data().email"
+        (valueChange)="form.updateField('email', $event)"
+        [serverError]="form.errors().email"
+        [validations]="emailValidations"
+      />
     </div>
 
     <!-- Password -->
     <div class="auth-form-field">
-      <!--      <app-password-input-->
-      <!--        label="Create Password"-->
-      <!--        inputId="password"-->
-      <!--        placeholder="Enter at least 8 characters"-->
-      <!--        autocomplete="new-password"-->
-      <!--        [control]="form.controls.password"-->
-      <!--        [maxLength]="MAX_TEXT_LENGTH"-->
-      <!--        [errorMessages]="{-->
-      <!--          required: 'Password is required',-->
-      <!--          minlength: 'Password must be at least 8 characters',-->
-      <!--        }"-->
-      <!--      />-->
+      <app-password-input
+        label="Create Password"
+        inputId="password"
+        placeholder="Enter at least 8 characters"
+        autocomplete="new-password"
+        [value]="form.data().password"
+        (valueChange)="form.updateField('password', $event)"
+        [serverError]="form.errors().password"
+        [validations]="passwordValidations"
+      />
       <p class="auth-password-hint">Passwords must be at least 8 characters</p>
     </div>
 
-    @if (errorMessage()) {
+    @if (form.globalError()) {
       <p class="auth-error" role="alert" aria-live="polite">
-        {{ errorMessage() }}
+        {{ form.globalError() }}
       </p>
     }
   </div>
 
-  <app-primary-button
-    type="submit"
-    [loading]="isSubmitting()"
-    [disabled]="form.invalid"
-    aria-label="Create your account"
-  >
+  <app-primary-button type="submit" [loading]="form.isSubmitting()" [disabled]="!form.isValid()">
     Create Account
   </app-primary-button>
 

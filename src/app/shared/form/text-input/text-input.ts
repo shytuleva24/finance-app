@@ -1,4 +1,5 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { FormValidationService, ValidationRules } from '@app/core/services/form-validation.service';
 
 @Component({
   selector: 'app-text-input',
@@ -7,6 +8,8 @@ import { Component, computed, input, output, signal } from '@angular/core';
   styleUrl: './text-input.scss',
 })
 export class TextInputComponent {
+  private readonly validator = inject(FormValidationService);
+
   readonly label = input.required<string>();
   readonly placeholder = input<string>('');
   readonly type = input<'text' | 'email' | 'password'>('text');
@@ -15,15 +18,30 @@ export class TextInputComponent {
   readonly maxLength = input<number>(100);
 
   readonly value = input<string>('');
-  readonly error = input<string | null>(null);
-  readonly touched = input<boolean>(false);
+  readonly serverError = input<string | null>(null);
+  readonly validations = input<ValidationRules>({});
 
   readonly valueChange = output<string>();
 
+  private readonly touched = signal(false);
   readonly isFocused = signal(false);
 
-  readonly hasError = computed(() => {
-    return !!(this.error() && !this.isFocused());
+  readonly error = computed(() => {
+    if (this.serverError()) {
+      return this.serverError();
+    }
+
+    if (!this.touched() || this.isFocused()) {
+      return null;
+    }
+
+    return this.validator.validate(this.value(), this.validations());
+  });
+
+  readonly hasError = computed(() => !!this.error());
+
+  readonly isValid = computed(() => {
+    return this.validator.validate(this.value(), this.validations()) === null;
   });
 
   onInput(event: Event) {
@@ -33,6 +51,7 @@ export class TextInputComponent {
 
   onBlur() {
     this.isFocused.set(false);
+    this.touched.set(true);
   }
 
   onFocus() {

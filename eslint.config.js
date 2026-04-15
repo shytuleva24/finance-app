@@ -25,6 +25,14 @@ module.exports = tseslint.config(
         'error',
         { type: 'element', prefix: 'app', style: 'kebab-case' },
       ],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {

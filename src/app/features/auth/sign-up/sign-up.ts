@@ -1,76 +1,48 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '@app/core/auth/auth.service';
-import { MAX_TEXT_LENGTH } from '@app/core/constants/form.constants';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthFacade } from '@app/features/auth/auth.facade';
+import {
+  emailValidations,
+  nameValidations,
+  passwordValidations,
+} from '@app/core/constants/form.constants';
+import { PasswordInput } from '@app/shared/form/password-input/password-input';
 import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
+import { TextInputComponent } from '@app/shared/form/text-input/text-input';
+import { createFormState } from '@app/shared/utils/form-state.util';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, PrimaryButton],
+  imports: [RouterLink, TextInputComponent, PasswordInput, PrimaryButton],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUp {
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
+  private readonly authFacade = inject(AuthFacade);
 
-  readonly isSubmitting = signal(false);
-  readonly errorMessage = signal<string | null>(null);
-  readonly MAX_TEXT_LENGTH = MAX_TEXT_LENGTH;
+  protected readonly nameValidations = nameValidations;
+  protected readonly emailValidations = emailValidations;
+  protected readonly passwordValidations = passwordValidations;
 
-  readonly form = new FormGroup({
-    name: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(MAX_TEXT_LENGTH)],
-    }),
-    email: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
-        Validators.maxLength(MAX_TEXT_LENGTH),
-      ],
-    }),
-    password: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(MAX_TEXT_LENGTH),
-      ],
-    }),
-  });
+  protected readonly form = createFormState(
+    {
+      name: '',
+      email: '',
+      password: '',
+    },
+    {
+      name: this.nameValidations,
+      email: this.emailValidations,
+      password: this.passwordValidations,
+    },
+  );
 
-  onSubmit() {
-    this.errorMessage.set(null);
+  onSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    if (!this.form.isValid()) return;
 
-    if (this.form.invalid || this.isSubmitting()) {
-      this.form.markAllAsTouched();
-      this.form.updateValueAndValidity();
-      return;
-    }
-
-    this.isSubmitting.set(true);
-
-    const { name, email, password } = this.form.getRawValue();
-
-    this.auth.register({ name, email, password }).subscribe({
-      next: async () => {
-        await this.router.navigate(['/overview']);
-        this.isSubmitting.set(false);
-      },
-      error: (err) => {
-        console.error('Registration error:', err);
-        const errorMessage =
-          err.error?.detailMessage ||
-          err.error?.message ||
-          'Registration failed. Please try again.';
-        this.errorMessage.set(errorMessage);
-        this.isSubmitting.set(false);
-      },
-    });
+    this.form.submit(this.authFacade.register(this.form.data()));
   }
 }

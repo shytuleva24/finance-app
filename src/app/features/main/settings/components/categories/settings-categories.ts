@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryModal } from '../category-modal/category-modal';
 import { CategoryService } from '@app/core/services/category.service';
@@ -16,8 +16,17 @@ export class SettingsCategories {
   private readonly categoryService = inject(CategoryService);
   private readonly modal = viewChild.required(CategoryModal);
 
-  protected readonly expenseCategories = this.categoryService.getExpenseCategories;
-  protected readonly incomeCategories = this.categoryService.getIncomeCategories;
+  protected readonly categories = this.categoryService.getCategories();
+
+  protected readonly expenseCategories = computed(() => {
+    if (!this.categories.hasValue()) return [];
+    return this.categories.value().filter((c) => c.type === 'OUTCOME');
+  });
+
+  protected readonly incomeCategories = computed(() => {
+    if (!this.categories.hasValue()) return [];
+    return this.categories.value().filter((c) => c.type === 'INCOME');
+  });
 
   openAddModal(): void {
     this.modal().open();
@@ -27,13 +36,9 @@ export class SettingsCategories {
     this.modal().open(category);
   }
 
-  deleteCategory(id: string): void {
+  deleteCategory(id: number): void {
     if (confirm('Are you sure you want to delete this category?')) {
       this.categoryService.deleteCategory(id);
     }
-  }
-
-  trackById(_: number, item: Category): string {
-    return item.id;
   }
 }

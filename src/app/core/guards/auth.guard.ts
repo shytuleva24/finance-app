@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-import { AuthService } from '@app/core/auth/auth.service';
+import { AuthService } from '@app/core/services/auth.service';
 import { BrowserService } from '@app/core/services/browser.service';
 
 /** Protects routes: allows access only when user is authenticated; otherwise redirects to login. */

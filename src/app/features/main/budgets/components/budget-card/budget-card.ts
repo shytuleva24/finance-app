@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { CategoryService } from '@app/core/services/category.service';
 import { Budget, BudgetView } from '@app/core/models/budget.model';
 
 @Component({
@@ -12,13 +11,11 @@ import { Budget, BudgetView } from '@app/core/models/budget.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCard {
-  private readonly categoryService = inject(CategoryService);
-
   budget = input.required<BudgetView>();
   edit = output<Budget>();
   delete = output<string>();
 
-  category = computed(() => this.categoryService.getCategoryById(this.budget().categoryId));
+  // category = computed(() => this.categoryService.getCategoryById(this.budget().categoryId));
 
   progressWidth = computed(() => {
     const percentage = (this.budget().spent / this.budget().limit) * 100;

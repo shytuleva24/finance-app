@@ -9,3 +9,11 @@ export const AUTH_URL = new InjectionToken<string>('AUTH_URL', {
     return `${api}/auth`;
   },
 });
+
+export const CATEGORIES_URL = new InjectionToken<string>('AUTH_URL', {
+  providedIn: 'root',
+  factory: () => {
+    const api = inject(API_URL);
+    return `${api}/categories`;
+  },
+});
