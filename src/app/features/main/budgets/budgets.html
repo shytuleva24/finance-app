@@ -1,3 +1,28 @@
-<section class="budgets">
-  <h1>Budgets</h1>
-</section>
+<div class="budgets-container">
+  <header class="page-header">
+    <h1>Budgets</h1>
+    <button class="btn-primary" (click)="openAddModal()">+ Add New Budget</button>
+  </header>
+
+  <div class="budgets-grid">
+    <aside class="summary-section">
+      <app-budget-summary />
+    </aside>
+
+    <main class="budgets-list">
+      @for (budget of budgetService.budgetViews(); track budget.id) {
+        <app-budget-card
+          [budget]="budget"
+          (edit)="openEditModal($event)"
+          (delete)="budgetService.deleteBudget($event)"
+        ></app-budget-card>
+      } @empty {
+        <div class="empty-state">
+          <p>No budgets found. Start by adding a new one!</p>
+        </div>
+      }
+    </main>
+  </div>
+</div>
+
+<app-budget-modal />

@@ -1,3 +1,33 @@
-.settings {
-  //
+@use 'app/styles/mixins' as *;
+
+.settings-container {
+  @include container(800px);
+
+  .page-header {
+    @include page-header;
+    margin-bottom: 48px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--grey-500);
+
+      .btn-secondary {
+        background: var(--white);
+        border: 1px solid var(--grey-300);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        &:hover {
+          background: var(--beige-100);
+        }
+      }
+    }
+  }
+
+  .settings-content {
+    @include card;
+  }
 }

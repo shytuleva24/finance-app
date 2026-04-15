@@ -1,0 +1,29 @@
+<div class="budget-summary-card">
+  <div class="chart-container">
+    <div class="donut-chart" [style.background]="chartGradient()">
+      <div class="inner-circle">
+        <span class="total-spent">{{ budgetService.totalSpent() | currency: 'USD' }}</span>
+        <span class="total-limit"
+          >of {{ budgetService.totalBudgeted() | currency: 'USD' }} limit</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="breakdown">
+    <h3>Spending Summary</h3>
+    <ul class="summary-list">
+      @for (budget of budgetService.budgetViews(); track budget.id) {
+        <li>
+          <div class="category-info" [style.--indicator-color]="budget.theme">
+            <span class="category-name">{{ getCategoryName(budget.categoryId) }}</span>
+          </div>
+          <div class="spending-info">
+            <span class="spent">{{ budget.spent | currency: 'USD' }}</span>
+            <span class="limit">of {{ budget.limit | currency: 'USD' }}</span>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<app-modal [title]="pot() ? 'Edit Pot' : 'Add New Pot'" [isOpen]="isOpen()" (closed)="close()">
+  <p class="dialog-description">
+    @if (pot()) {
+      If your saving targets change, feel free to update your pots.
+    } @else {
+      Create a pot to set savings targets. These can help keep you on track as you save for special
+      purchases.
+    }
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dialog-form">
+    <div class="form-field">
+      <label for="potName">Pot Name</label>
+      <input
+        id="potName"
+        type="text"
+        formControlName="name"
+        placeholder="e.g. Rainy Days"
+        maxlength="30"
+      />
+      <div class="field-info">
+        <span class="error">
+          @if (form.get('name')?.invalid && form.get('name')?.touched) {
+            Pot name is required.
+          }
+        </span>
+        <span class="char-count"
+          >{{ 30 - (form.get('name')?.value?.length || 0) }} characters left</span
+        >
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="target">Target</label>
+      <div class="input-with-symbol">
+        <span class="symbol">{{
+          form.get('currency')?.value === 'PLN'
+            ? 'zł'
+            : form.get('currency')?.value === 'EUR'
+              ? '€'
+              : '$'
+        }}</span>
+        <input id="target" type="number" formControlName="target" placeholder="e.g. 2000" />
+      </div>
+      @if (form.get('target')?.invalid && form.get('target')?.touched) {
+        <span class="error">Target must be at least 1.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="theme">Theme</label>
+      <select id="theme" formControlName="theme">
+        @for (theme of themes; track theme) {
+          <option [value]="theme">{{ theme }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="currency">Currency</label>
+      <select id="currency" formControlName="currency">
+        <!--        @for (currency of currencies; track currency) {-->
+        <!--          <option [value]="currency">{{ currency }}</option>-->
+        <!--        }-->
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn--primary" [disabled]="form.invalid">
+      {{ pot() ? 'Save Changes' : 'Add Pot' }}
+    </button>
+  </form>
+</app-modal>

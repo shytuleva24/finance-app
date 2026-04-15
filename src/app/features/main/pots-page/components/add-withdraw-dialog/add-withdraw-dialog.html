@@ -1,0 +1,55 @@
+<app-modal
+  [title]="mode() === 'add' ? 'Add to ‘' + pot().name + '’' : 'Withdraw from ‘' + pot().name + '’'"
+  [isOpen]="isOpen()"
+  (closed)="close()"
+>
+  <p class="dialog-description">
+    {{
+      mode() === 'add'
+        ? 'Add money to this pot to move closer to your savings goal. Your progress and total amount will update automatically.'
+        : 'Withdraw money from this pot if needed. This will reduce your total saved amount and progress toward your goal.'
+    }}
+  </p>
+
+  <div class="new-amount-summary">
+    <span class="label">New Amount</span>
+    <span class="value">{{ newTotal() | currency: pot().currency : 'symbol' : '1.2-2' }}</span>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [style.width.%]="newPercentage() * 100"
+        [style.background-color]="themeColor()"
+      ></div>
+    </div>
+    <div class="progress-info">
+      <span class="percentage" [style.color]="themeColor()">{{
+        newPercentage() | percent: '1.2-2'
+      }}</span>
+      <span class="target">
+        Target of {{ pot().target | currency: pot().currency : 'symbol' : '1.0-0' }}
+      </span>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dialog-form">
+    <div class="form-field">
+      <label for="amount">{{ mode() === 'add' ? 'Amount to Add' : 'Amount to Withdraw' }}</label>
+      <div class="input-with-symbol">
+        <span class="symbol">{{
+          pot().currency === 'PLN' ? 'zł' : pot().currency === 'EUR' ? '€' : '$'
+        }}</span>
+        <input id="amount" type="number" formControlName="amount" placeholder="e.g. 10" />
+      </div>
+      @if (form.get('amount')?.invalid && form.get('amount')?.touched) {
+        <span class="error">Please enter a valid amount.</span>
+      }
+    </div>
+
+    <button type="submit" class="btn btn--primary" [disabled]="form.invalid">
+      {{ mode() === 'add' ? 'Confirm Addition' : 'Confirm Withdrawal' }}
+    </button>
+  </form>
+</app-modal>

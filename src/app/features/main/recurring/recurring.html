@@ -1,3 +1,47 @@
-<section class="recurring-bills">
-  <h1>Recurring Bills</h1>
-</section>
+<div class="recurring-container">
+  <header class="page-header">
+    <h1>Recurring Bills & Income</h1>
+    <button class="btn-primary" (click)="openAddModal()">+ Add Recurring Rule</button>
+  </header>
+
+  <div class="rules-list">
+    @for (rule of rules(); track rule.id) {
+      <div class="rule-card" [class.paused]="!rule.isActive">
+        <div class="rule-info">
+          <h3>{{ rule.title }}</h3>
+          <div class="meta">
+            <span class="category">{{ getCategoryName(rule.categoryId) }}</span>
+            <span class="dot">•</span>
+            <span class="schedule">Every month on day {{ rule.schedule.dayOfMonth }}</span>
+          </div>
+        </div>
+
+        <div class="rule-amount" [class.income]="rule.type === 'income'">
+          {{ rule.type === 'income' ? '+' : '-' }}{{ rule.amount | currency: rule.currency }}
+        </div>
+
+        <div class="actions">
+          <button class="btn-secondary" (click)="toggleActive(rule.id)">
+            {{ rule.isActive ? 'Pause' : 'Resume' }}
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <img
+          src="assets/images/icon-recurring-bills.svg"
+          alt="No recurring bills"
+          class="empty-state__icon"
+        />
+        <h2 class="empty-state__title">No recurring bills found</h2>
+        <p class="empty-state__description">
+          Create a recurring rule to automate your monthly income or expenses and keep track of your
+          upcoming bills.
+        </p>
+        <button class="btn-primary" (click)="openAddModal()">+ Add Your First Rule</button>
+      </div>
+    }
+  </div>
+</div>
+
+<app-recurring-rule-modal />

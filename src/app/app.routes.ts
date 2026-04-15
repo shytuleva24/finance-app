@@ -6,14 +6,16 @@ import { loginGuard } from './core/guards/login.guard';
 export const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./features/auth/auth.routes').then((r) => r.authRoutes),
+    loadChildren: () => import('@app/features/auth/auth.routes').then((r) => r.authRoutes),
     canActivate: [loginGuard],
   },
   {
     path: '',
-    loadChildren: () => import('./features/main/main.routes').then((r) => r.mainRoutes),
+    loadChildren: () => import('@app/features/main/main.routes').then((r) => r.mainRoutes),
     canActivate: [authGuard],
   },
-  { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'overview' },
+  {
+    path: '**',
+    loadComponent: () => import('@app/features/not-found/not-found').then((m) => m.NotFound),
+  },
 ];

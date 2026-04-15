@@ -1,3 +1,105 @@
-.recurring-bills {
-  //
+@use 'app/styles/mixins' as *;
+
+.recurring-container {
+  @include container(1000px);
+
+  .page-header {
+    @include page-header;
+  }
+
+  .rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rule-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: opacity 0.3s;
+
+    &.paused {
+      opacity: 0.6;
+      background: var(--beige-100);
+    }
+
+    .rule-info {
+      flex: 1;
+      h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--grey-900);
+        margin-bottom: 4px;
+      }
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--grey-500);
+      }
+    }
+
+    .rule-amount {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--grey-900);
+      &.income {
+        color: var(--green);
+      }
+    }
+
+    .actions {
+      .btn-secondary {
+        background: var(--white);
+        border: 1px solid var(--grey-300);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        &:hover {
+          background: var(--beige-100);
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    @include card(80px 24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+
+    &__icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+
+    &__title {
+      @include text-preset-2;
+      color: var(--grey-900);
+    }
+
+    &__description {
+      @include text-preset-4;
+      color: var(--grey-500);
+      max-width: 400px;
+      margin-bottom: 8px;
+    }
+
+    .btn-primary {
+      @include primary-button;
+      width: auto;
+      padding: 16px 24px;
+    }
+  }
 }

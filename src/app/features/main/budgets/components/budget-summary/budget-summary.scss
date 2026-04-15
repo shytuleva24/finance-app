@@ -1,0 +1,105 @@
+@use 'app/styles/mixins' as *;
+
+.budget-summary-card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .donut-chart {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      .inner-circle {
+        width: 160px;
+        height: 160px;
+        background: var(--white);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .total-spent {
+          @include text-preset-1;
+        }
+
+        .total-limit {
+          @include text-preset-5;
+          color: var(--grey-500);
+        }
+      }
+    }
+  }
+
+  .breakdown {
+    h3 {
+      @include text-preset-2;
+      margin-bottom: 24px;
+    }
+
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 16px;
+        position: relative;
+
+        .category-info {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 16px;
+            border-radius: 2px;
+            background: var(--indicator-color);
+          }
+
+          .category-name {
+            @include text-preset-4;
+            color: var(--grey-500);
+          }
+        }
+
+        .spending-info {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .spent {
+            @include text-preset-3;
+          }
+
+          .limit {
+            @include text-preset-5;
+            color: var(--grey-500);
+          }
+        }
+      }
+    }
+  }
+}

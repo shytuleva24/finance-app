@@ -1,0 +1,77 @@
+<app-modal
+  [isOpen]="isOpen()"
+  (closed)="close()"
+  [title]="isEditMode() ? 'Edit Budget' : 'Add New Budget'"
+>
+  <p class="description">
+    {{
+      isEditMode()
+        ? 'As your budgets change, feel free to update your spending limits.'
+        : 'Choose a category to set a spending budget. These categories can help you monitor spending.'
+    }}
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label>Type</label>
+      <div class="type-selector">
+        <label>
+          <input type="radio" formControlName="type" value="expense" />
+          <span>Expense</span>
+        </label>
+        <label>
+          <input type="radio" formControlName="type" value="income" />
+          <span>Income</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="categoryId">Budget Category</label>
+      <select id="categoryId" formControlName="categoryId" class="select-input">
+        <option value="" disabled>Select a category</option>
+        <!--        @for (cat of availableCategories(); track cat.id) {-->
+        <!--          <option [value]="cat.id">{{ cat.name }}</option>-->
+        <!--        }-->
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="limit">Maximum Spend / Goal</label>
+        <input
+          id="limit"
+          type="number"
+          formControlName="limit"
+          class="text-input"
+          placeholder="e.g. 2000"
+        />
+      </div>
+      <div class="form-group">
+        <label for="currency">Currency</label>
+        <select id="currency" formControlName="currency" class="select-input">
+          @for (curr of currencies; track curr.code) {
+            <option [value]="curr.code">{{ curr.code }} ({{ curr.symbol }})</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description (Optional)</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="text-input textarea"
+        placeholder="e.g. Save for a new car or limit monthly dining"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <div class="actions">
+      <app-primary-button type="submit" [disabled]="form.invalid">
+        {{ isEditMode() ? 'Save Changes' : 'Add Budget' }}
+      </app-primary-button>
+    </div>
+  </form>
+</app-modal>

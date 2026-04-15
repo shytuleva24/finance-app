@@ -1,3 +1,75 @@
-.pots {
-  //
+@use 'app/styles/mixins' as *;
+
+.pots-page {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @media (max-width: 768px) {
+    gap: 24px;
+  }
+}
+
+.pots-header {
+  @include page-header;
+}
+
+.pots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty-state {
+  @include card(80px 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--grey-900);
+  }
+
+  &__description {
+    font-size: 16px;
+    color: var(--grey-500);
+    max-width: 400px;
+    margin-bottom: 8px;
+  }
+}
+
+.btn {
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+
+  &--primary {
+    background-color: var(--grey-900);
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--grey-500);
+    }
+  }
 }

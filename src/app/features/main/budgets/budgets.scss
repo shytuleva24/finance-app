@@ -1,3 +1,43 @@
-.budgets {
-  //
+@use 'app/styles/mixins' as *;
+
+.budgets-container {
+  @include container;
+
+  .page-header {
+    @include page-header;
+  }
+
+  .budgets-grid {
+    display: grid;
+    grid-template-columns: 428px 1fr;
+    gap: 24px;
+    align-items: start;
+
+    @include tablet {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .summary-section {
+    .placeholder-summary {
+      @include card;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-500);
+    }
+  }
+
+  .budgets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .empty-state {
+    @include card(48px);
+    text-align: center;
+    color: var(--grey-500);
+  }
 }

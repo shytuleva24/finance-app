@@ -1,3 +1,72 @@
-.transactions {
-  //
+@use 'app/styles/mixins' as *;
+
+.transactions-container {
+  @include container;
+
+  .page-header {
+    @include page-header;
+  }
+
+  .table-container {
+    @include card;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        text-align: left;
+        font-size: 12px;
+        color: var(--grey-500);
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--grey-100);
+      }
+
+      td {
+        padding: 24px 0;
+        border-bottom: 1px solid var(--grey-100);
+        font-size: 14px;
+        color: var(--grey-900);
+      }
+
+      .text-right {
+        text-align: right;
+      }
+
+      .tx-name {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-weight: 700;
+
+        .avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--white);
+          font-size: 14px;
+        }
+      }
+
+      .tx-date {
+        color: var(--grey-500);
+      }
+
+      .tx-amount {
+        font-weight: 700;
+        &.income {
+          color: var(--green);
+        }
+      }
+
+      .empty-state {
+        text-align: center;
+        color: var(--grey-500);
+        padding: 48px 0;
+      }
+    }
+  }
 }

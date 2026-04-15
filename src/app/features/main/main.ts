@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from '../shared/sidebar/sidebar';
+import { Sidebar } from '@app/layout/sidebar/sidebar';
 
 @Component({
   selector: 'app-main',

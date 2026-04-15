@@ -1,0 +1,133 @@
+@use 'app/styles/mixins' as *;
+
+.overview-container {
+  @include container;
+}
+
+.overview-header {
+  margin-bottom: 32px;
+
+  .page-title {
+    @include text-preset-1;
+    color: var(--grey-900);
+  }
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    @include card(24px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &.dark {
+      background: var(--grey-900);
+      color: var(--white);
+    }
+
+    .label {
+      @include text-preset-4;
+      color: inherit;
+      opacity: 0.7;
+    }
+
+    .value {
+      @include text-preset-1;
+      color: inherit;
+    }
+  }
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.grid-item {
+  grid-column: span 12;
+
+  @media (min-width: 1024px) {
+    &.main {
+      grid-column: span 7;
+    }
+    &.side {
+      grid-column: span 5;
+    }
+  }
+
+  .section-card {
+    @include card;
+    height: 100%;
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      h2 {
+        @include text-preset-2;
+      }
+
+      .btn-link {
+        @include text-preset-4;
+        color: var(--grey-500);
+        text-decoration: none;
+        &:hover {
+          color: var(--grey-900);
+        }
+      }
+    }
+
+    .pots-summary {
+      .total-saved {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: var(--beige-100);
+        padding: 24px;
+        border-radius: 12px;
+        border-left: 4px solid var(--green);
+
+        img {
+          width: 40px;
+          height: 40px;
+        }
+
+        .info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          .label {
+            @include text-preset-4;
+            color: var(--grey-500);
+          }
+
+          .amount {
+            @include text-preset-1;
+            color: var(--grey-900);
+          }
+        }
+      }
+    }
+
+    .recent-list {
+      .amount {
+        &.income {
+          color: var(--green);
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,56 @@
-<section class="pots">
-  <h1>Pots</h1>
-</section>
+<div class="pots-page">
+  <header class="pots-header">
+    <h1>Pots</h1>
+    <button class="btn btn--primary" (click)="openAddPotDialog()">+ Add New Pot</button>
+  </header>
+
+  @if (pots().length > 0) {
+    <div class="pots-grid">
+      @for (pot of pots(); track pot.id) {
+        <app-pot-card
+          [pot]="pot"
+          (edit)="openEditPotDialog(pot)"
+          (delete)="openDeleteDialog(pot)"
+          (addMoney)="openAddMoneyDialog(pot)"
+          (withdraw)="openWithdrawDialog(pot)"
+        />
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <img src="assets/images/icon-pot.svg" alt="No pots" class="empty-state__icon" />
+      <h2 class="empty-state__title">You have no pots yet</h2>
+      <p class="empty-state__description">
+        Create a pot to set savings targets and keep track of your progress.
+      </p>
+      <button class="btn btn--primary" (click)="openAddPotDialog()">+ Add Your First Pot</button>
+    </div>
+  }
+
+  <!-- Modals -->
+  <app-pot-dialog
+    [isOpen]="isPotDialogOpen()"
+    [pot]="selectedPotForEdit()"
+    (closed)="isPotDialogOpen.set(false)"
+    (saved)="handleSavePot($event)"
+  />
+
+  @if (selectedPotForMoney()) {
+    <app-add-withdraw-dialog
+      [isOpen]="isAddWithdrawDialogOpen()"
+      [pot]="selectedPotForMoney()!"
+      [mode]="addWithdrawMode()"
+      (closed)="isAddWithdrawDialogOpen.set(false)"
+      (confirmed)="handleMoneyConfirmed($event)"
+    />
+  }
+
+  @if (selectedPotForDelete()) {
+    <app-delete-pot-dialog
+      [isOpen]="isDeleteDialogOpen()"
+      [pot]="selectedPotForDelete()!"
+      (closed)="isDeleteDialogOpen.set(false)"
+      (confirmed)="handleDeleteConfirmed()"
+    />
+  }
+</div>

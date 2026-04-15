@@ -121,6 +121,47 @@ $fw-bold: 700;
   }
 }
 
+/* Layout Mixins */
+@mixin container($max-width: 1200px) {
+  padding: 32px;
+  max-width: $max-width;
+  margin: 0 auto;
+
+  @include mobile {
+    padding: 24px;
+  }
+}
+
+@mixin card($padding: 32px) {
+  background: var(--white);
+  border-radius: 12px;
+  padding: $padding;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  @include mobile {
+    padding: 24px;
+  }
+}
+
+@mixin page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  h1 {
+    @include text-preset-1();
+    color: var(--grey-900);
+  }
+
+  .btn-primary {
+    @include primary-button();
+    width: auto;
+    padding: 16px 24px;
+    border-radius: 8px;
+  }
+}
+
 /* Media Queries */
 @mixin mobile {
   @media (max-width: 768px) {

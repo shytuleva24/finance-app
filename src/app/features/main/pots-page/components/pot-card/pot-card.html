@@ -1,0 +1,49 @@
+<div class="pot-card">
+  <div class="pot-card__header">
+    <div class="pot-card__title">
+      <span class="pot-card__indicator" [style.background-color]="themeColor()"></span>
+      <h3>{{ pot().name }}</h3>
+    </div>
+    <div class="pot-card__actions">
+      <button class="icon-button" (click)="toggleMenu()">
+        <img src="../../../../../assets/images/icon-ellipsis.svg" alt="Options" />
+      </button>
+
+      @if (isMenuOpen()) {
+        <div class="context-menu">
+          <button (click)="handleEdit()">Edit Pot</button>
+          <hr />
+          <button class="danger" (click)="handleDelete()">Delete Pot</button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="pot-card__stats">
+    <div class="stat-group">
+      <span class="label">Total Saved</span>
+      <span class="value">{{ pot().total | currency: pot().currency : 'symbol' : '1.2-2' }}</span>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-info">
+        <span class="percentage">{{ percentage() | percent: '1.1-2' }}</span>
+        <span class="target">
+          Target of {{ pot().target | currency: pot().currency : 'symbol' : '1.0-0' }}
+        </span>
+      </div>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="percentage() * 100"
+          [style.background-color]="themeColor()"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pot-card__footer">
+    <button class="btn btn--secondary" (click)="addMoney.emit()">+ Add Money</button>
+    <button class="btn btn--secondary" (click)="withdraw.emit()">Withdraw</button>
+  </div>
+</div>

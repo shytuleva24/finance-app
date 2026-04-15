@@ -1,9 +1,0 @@
-@use 'styles/_mixins' as *;
-
-:host {
-  display: block;
-}
-
-.primary-button {
-  @include primary-button;
-}
