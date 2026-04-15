@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { Pot } from '@app/core/models/pot.model';
 import { PotDialog } from '@app/features/main/pots-page/components/pot-dialog/pot-dialog';
 import { AddWithdrawDialog } from '@app/features/main/pots-page/components/add-withdraw-dialog/add-withdraw-dialog';
-import { DeletePotDialog } from '@app/features/main/pots-page/components/delete-pot-dialog/delete-pot-dialog';
 import { PotCard } from '@app/features/main/pots-page/components/pot-card/pot-card';
 import { PotService } from '@app/core/services/pot.service';
+import { ConfirmActionDialog } from '@app/shared/components/confirm-action-dialog/confirm-action-dialog';
 
 @Component({
   selector: 'app-pots',
   standalone: true,
-  imports: [PotDialog, AddWithdrawDialog, DeletePotDialog, PotCard],
+  imports: [PotDialog, AddWithdrawDialog, ConfirmActionDialog, PotCard],
   templateUrl: './pots.html',
   styleUrl: './pots.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,11 +4,12 @@ import { Budget } from '@app/core/models/budget.model';
 import { BudgetSummary } from '@app/features/main/budgets/components/budget-summary/budget-summary';
 import { BudgetCard } from '@app/features/main/budgets/components/budget-card/budget-card';
 import { BudgetService } from '@app/core/services/budget.service';
+import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
 
 @Component({
   selector: 'app-budgets',
   standalone: true,
-  imports: [BudgetSummary, BudgetModal, BudgetCard],
+  imports: [BudgetSummary, BudgetModal, BudgetCard, PrimaryButton],
   templateUrl: './budgets.html',
   styleUrl: './budgets.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

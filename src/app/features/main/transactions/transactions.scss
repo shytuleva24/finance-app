@@ -5,6 +5,12 @@
 
   .page-header {
     @include page-header;
+
+    .btn-add {
+      width: auto;
+      padding: 16px 24px;
+      border-radius: 8px;
+    }
   }
 
   .table-container {

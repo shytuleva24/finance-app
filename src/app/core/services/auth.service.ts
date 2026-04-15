@@ -21,7 +21,6 @@ export class AuthService {
   login(credentials: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, credentials).pipe(
       tap((response) => {
-        console.log('Login successful, received user info:', response.name);
         this.handleAuthSuccess(response);
       }),
     );
@@ -30,7 +29,6 @@ export class AuthService {
   register(credentials: AuthRequest & { name?: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, credentials).pipe(
       tap((response) => {
-        console.log('Registration successful, received user info:', response.name);
         this.handleAuthSuccess(response);
       }),
     );

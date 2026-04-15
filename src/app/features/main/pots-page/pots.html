@@ -46,9 +46,13 @@
   }
 
   @if (selectedPotForDelete()) {
-    <app-delete-pot-dialog
+    <app-confirm-action-dialog
       [isOpen]="isDeleteDialogOpen()"
-      [pot]="selectedPotForDelete()!"
+      [title]="'Delete ‘' + selectedPotForDelete()!.name + '’?'"
+      [description]="'Are you sure you want to delete this pot? This action cannot be reversed, and all the data inside it will be removed forever.'"
+      [confirmText]="'Yes, Confirm Deletion'"
+      [cancelText]="'No, Go Back'"
+      [confirmVariant]="'danger'"
       (closed)="isDeleteDialogOpen.set(false)"
       (confirmed)="handleDeleteConfirmed()"
     />

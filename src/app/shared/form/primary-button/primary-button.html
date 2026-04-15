@@ -1,4 +1,9 @@
-<button [type]="type()" [disabled]="disabled() || loading()" class="primary-button">
+<button
+  [type]="type()"
+  [disabled]="disabled() || loading()"
+  class="primary-button"
+  [class]="className()"
+>
   @if (loading()) {
     <span>...</span>
   } @else {

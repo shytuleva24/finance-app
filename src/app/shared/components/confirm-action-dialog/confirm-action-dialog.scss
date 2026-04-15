@@ -1,0 +1,41 @@
+.dialog-description {
+  font-size: 14px;
+  color: var(--grey-500);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+  background-color: #171820;
+  color: var(--white);
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &--danger {
+    background-color: var(--red);
+  }
+
+  &--text {
+    background: none;
+    color: var(--grey-500);
+
+    &:hover {
+      color: var(--grey-900);
+    }
+  }
+}

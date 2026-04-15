@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/
 import { CommonModule } from '@angular/common';
 import { RecurringRuleModal } from '@app/features/main/recurring/components/recurring-rule-modal/recurring-rule-modal';
 import { RecurringService } from '@app/core/services/recurring.service';
+import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
 
 @Component({
   selector: 'app-recurring-bills',
   standalone: true,
-  imports: [RecurringRuleModal, CommonModule],
+  imports: [RecurringRuleModal, CommonModule, PrimaryButton],
   templateUrl: './recurring.html',
   styleUrl: './recurring.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

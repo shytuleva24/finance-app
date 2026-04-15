@@ -7,12 +7,13 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { routes } from './app.routes';
 import { API_URL } from './core/constants/api.constants';
 import { authInterceptor } from '@app/core/interceptors/auth-interceptor';
+import { timeoutInterceptor } from '@app/core/interceptors/timeout-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     { provide: API_URL, useValue: 'http://192.168.0.175:8080' },
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, timeoutInterceptor])),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideCharts(withDefaultRegisterables()),

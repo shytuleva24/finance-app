@@ -3,11 +3,12 @@ import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/
 import { TransactionModal } from '@app/features/main/transactions/components/transaction-modal/transaction-modal';
 import { CategoryService } from '@app/core/services/category.service';
 import { TransactionService } from '@app/core/services/transaction.service';
+import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [TransactionModal, CommonModule],
+  imports: [TransactionModal, CommonModule, PrimaryButton],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

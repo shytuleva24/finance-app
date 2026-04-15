@@ -16,20 +16,10 @@
         color: var(--grey-900);
       }
 
-      .btn-primary {
-        background-color: var(--grey-900);
-        color: var(--white);
-        border: none;
+      .btn-add {
+        width: auto;
         padding: 16px 24px;
         border-radius: 8px;
-        font-weight: 700;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-
-        &:hover {
-          background-color: var(--grey-500);
-        }
       }
     }
     p {
@@ -113,6 +103,14 @@
             color: var(--grey-900);
           }
 
+          &.edit {
+            color: var(--grey-500);
+
+            &:hover {
+              color: var(--grey-900);
+            }
+          }
+
           &.delete {
             background: var(--red);
             border-color: var(--red);
@@ -121,6 +119,7 @@
             &:hover {
               opacity: 0.8;
               background: var(--red);
+              color: var(--white);
             }
           }
         }

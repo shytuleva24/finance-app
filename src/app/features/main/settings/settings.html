@@ -2,10 +2,22 @@
   <header class="page-header">
     <h1>Settings</h1>
     <div class="user-info">
-      <span>Logged in as <strong>NAME</strong></span>
-      <button class="btn-secondary" (click)="logout()">Logout</button>
+      <span>
+        Logged in as <strong>{{ userName() }}</strong>
+      </span>
+      <button class="btn-secondary" (click)="openLogoutModal()">Logout</button>
     </div>
   </header>
+
+  <app-confirm-action-dialog
+    [isOpen]="isLogoutModalOpen()"
+    title="Logout Confirmation"
+    description="Are you sure you want to log out of your account?"
+    confirmText="Logout"
+    confirmVariant="danger"
+    (closed)="closeLogoutModal()"
+    (confirmed)="confirmLogout()"
+  />
 
   <div class="settings-content">
     <app-settings-categories />

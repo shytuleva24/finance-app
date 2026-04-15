@@ -3,17 +3,17 @@
   (closed)="close()"
   [title]="isEditMode() ? 'Edit Category' : 'Add New Category'"
 >
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  <form (submit)="$event.preventDefault(); submit()">
     <div class="form-group">
-      <label for="name">Category Name</label>
-      <input
-        id="name"
-        type="text"
-        formControlName="name"
-        class="text-input"
-        [class.text-input--error]="form.controls.name.touched && form.controls.name.invalid"
+      <app-text-input
+        label="Category Name"
+        inputId="name"
         placeholder="e.g. Groceries"
+        [value]="form.data().name"
+        (valueChange)="form.updateField('name', $event)"
         [maxLength]="MAX_TEXT_LENGTH"
+        [validations]="nameValidations"
+        [serverError]="form.errors().name"
       />
     </div>
 
@@ -22,11 +22,21 @@
         <legend>Type</legend>
         <div class="type-selector">
           <label>
-            <input type="radio" formControlName="type" value="expense" />
+            <input
+              type="radio"
+              name="categoryType"
+              [checked]="form.data().type === 'OUTCOME'"
+              (change)="form.updateField('type', 'OUTCOME')"
+            />
             <span>Expense</span>
           </label>
           <label>
-            <input type="radio" formControlName="type" value="income" />
+            <input
+              type="radio"
+              name="categoryType"
+              [checked]="form.data().type === 'INCOME'"
+              (change)="form.updateField('type', 'INCOME')"
+            />
             <span>Income</span>
           </label>
         </div>
@@ -42,11 +52,12 @@
               type="button"
               class="color-option"
               [style.background-color]="c.color"
-              [class.selected]="form.controls.color.value === c.color"
+              [class.selected]="form.data().color === c.color"
+              [class.used]="isColorUsed(c.color)"
               (click)="selectColor(c.color)"
-              [title]="c.name"
+              [title]="c.name + (isColorUsed(c.color) ? ' (Already in use)' : '')"
             >
-              @if (form.controls.color.value === c.color) {
+              @if (form.data().color === c.color) {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -60,6 +71,8 @@
                 >
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
+              } @else if (isColorUsed(c.color)) {
+                <div class="used-indicator"></div>
               }
             </button>
           }
@@ -68,7 +81,11 @@
     </div>
 
     <div class="actions">
-      <app-primary-button type="submit" [disabled]="form.invalid">
+      <app-primary-button
+        type="submit"
+        [disabled]="!form.isValid()"
+        [loading]="form.isSubmitting()"
+      >
         {{ isEditMode() ? 'Save Changes' : 'Add Category' }}
       </app-primary-button>
     </div>

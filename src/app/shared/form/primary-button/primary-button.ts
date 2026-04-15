@@ -13,4 +13,5 @@ export class PrimaryButton {
   readonly type = input<'button' | 'submit' | 'reset'>('button');
   readonly disabled = input<boolean>(false);
   readonly loading = input<boolean>(false);
+  readonly className = input<string>('');
 }

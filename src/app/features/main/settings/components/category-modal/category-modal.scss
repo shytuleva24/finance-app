@@ -1,3 +1,5 @@
+@use '../../../../../styles/mixins' as *;
+
 form {
   display: flex;
   flex-direction: column;
@@ -9,10 +11,9 @@ form {
   flex-direction: column;
   gap: 8px;
 
-  label {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--grey-900);
+  legend {
+    @include form-label;
+    margin-bottom: 4px;
   }
 }
 
@@ -60,6 +61,8 @@ form {
     }
 
     span {
+      @include form-label;
+      @include text-preset-4();
       display: block;
       text-align: center;
       padding: 10px;
@@ -92,10 +95,10 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: all 0.2s, border-color 0.2s;
 
     &:hover {
-      transform: scale(1.2);
+      transform: scale(1.15);
       z-index: 1;
     }
 
@@ -108,6 +111,23 @@ form {
       width: 12px;
       height: 12px;
       filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+    }
+
+    .used-indicator {
+      width: 6px;
+      height: 6px;
+      background-color: var(--white);
+      border-radius: 50%;
+      opacity: 0.6;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    &.used {
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }

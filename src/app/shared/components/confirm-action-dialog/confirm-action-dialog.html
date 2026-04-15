@@ -1,0 +1,10 @@
+<app-modal [title]="title()" [isOpen]="isOpen()" (closed)="close()">
+  <p class="dialog-description">{{ description() }}</p>
+
+  <div class="actions">
+    <button class="btn" [class.btn--danger]="confirmVariant() === 'danger'" (click)="confirm()">
+      {{ confirmText() }}
+    </button>
+    <button class="btn btn--text" (click)="close()">{{ cancelText() }}</button>
+  </div>
+</app-modal>

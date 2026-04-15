@@ -1,7 +1,9 @@
 <div class="budgets-container">
   <header class="page-header">
     <h1>Budgets</h1>
-    <button class="btn-primary" (click)="openAddModal()">+ Add New Budget</button>
+    <app-primary-button className="btn-add" (click)="openAddModal()"
+      >+ Add New Budget</app-primary-button
+    >
   </header>
 
   <div class="budgets-grid">

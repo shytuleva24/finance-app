@@ -26,7 +26,7 @@ export class FormState<T extends FormFields> {
     initialData: T,
     private readonly validations: FormValidations<T> = {} as FormValidations<T>,
   ) {
-    this.data = signal(initialData);
+    this.data = signal({ ...initialData });
 
     const initialErrors = {} as FieldErrors<T>;
     Object.keys(initialData).forEach((key) => {
@@ -38,6 +38,25 @@ export class FormState<T extends FormFields> {
   updateField(field: keyof T, value: string) {
     this.data.update((v) => ({ ...v, [field]: value }));
     this.clearFieldError(field);
+  }
+
+  setData(data: T) {
+    this.data.set({ ...data });
+    this.clearErrors();
+  }
+
+  reset(initialData: T) {
+    this.data.set({ ...initialData });
+    this.clearErrors();
+  }
+
+  clearErrors() {
+    const initialErrors = {} as FieldErrors<T>;
+    Object.keys(this.data()).forEach((key) => {
+      initialErrors[key as keyof T] = null;
+    });
+    this.errors.set(initialErrors);
+    this.globalError.set(null);
   }
 
   clearFieldError(field: keyof T) {

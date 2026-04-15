@@ -5,6 +5,12 @@
 
   .page-header {
     @include page-header;
+
+    .btn-add {
+      width: auto;
+      padding: 16px 24px;
+      border-radius: 8px;
+    }
   }
 
   .rules-list {
@@ -96,10 +102,10 @@
       margin-bottom: 8px;
     }
 
-    .btn-primary {
-      @include primary-button;
+    .btn-add {
       width: auto;
       padding: 16px 24px;
+      border-radius: 8px;
     }
   }
 }
