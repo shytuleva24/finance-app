@@ -11,7 +11,9 @@
         type="text"
         formControlName="name"
         class="text-input"
+        [class.text-input--error]="form.controls.name.touched && form.controls.name.invalid"
         placeholder="e.g. Groceries"
+        [maxLength]="MAX_TEXT_LENGTH"
       />
     </div>
 
@@ -40,11 +42,11 @@
               type="button"
               class="color-option"
               [style.background-color]="c.color"
-              [class.selected]="form.get('color')?.value === c.color"
+              [class.selected]="form.controls.color.value === c.color"
               (click)="selectColor(c.color)"
               [title]="c.name"
             >
-              @if (form.get('color')?.value === c.color) {
+              @if (form.controls.color.value === c.color) {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

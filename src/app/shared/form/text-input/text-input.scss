@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  position: relative;
 }
 
 .form-label {
@@ -16,8 +17,21 @@
 
 .form-input {
   @include form-input;
+
+  &--error {
+    border-color: var(--red) !important;
+
+    &:focus {
+      border-color: var(--red) !important;
+      box-shadow: 0 0 0 2px rgba(201, 71, 47, 0.1);
+    }
+  }
 }
 
 .form-error {
-  @include form-error;
+  @include text-preset-5();
+  color: var(--red);
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
 }

@@ -2,13 +2,7 @@
   <h1 class="auth-form-title" id="login-title">Login</h1>
 </header>
 
-<form
-  class="auth-form"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
-  novalidate
-  aria-labelledby="login-title"
->
+<form class="auth-form" (submit)="onSubmit($event)" novalidate aria-labelledby="login-title">
   <div class="auth-form-fields">
     <!-- Email -->
     <div class="auth-form-field">
@@ -18,11 +12,11 @@
         type="email"
         placeholder="e.g. alex@example.com"
         autocomplete="email"
-        [control]="$any(email)"
-        [errorMessages]="{
-          required: 'Email is required',
-          pattern: 'Please enter a valid email address',
-        }"
+        [value]="loginData().email"
+        (valueChange)="updateEmail($event)"
+        [error]="form.email().errors()[0]?.message || null"
+        [touched]="form.email().touched()"
+        [maxLength]="MAX_TEXT_LENGTH"
       />
     </div>
 
@@ -33,26 +27,22 @@
         inputId="password"
         placeholder="Enter your password"
         autocomplete="current-password"
-        [control]="$any(password)"
-        [errorMessages]="{
-          required: 'Password is required',
-        }"
+        [value]="loginData().password"
+        (valueChange)="updatePassword($event)"
+        [error]="form.password().errors()[0]?.message || null"
+        [touched]="form.password().touched()"
+        [maxLength]="MAX_TEXT_LENGTH"
       />
-
-      @if (errorMessage()) {
-        <p class="auth-error" role="alert" aria-live="polite">
-          {{ errorMessage() }}
-        </p>
-      }
     </div>
+
+    @if (errorMessage()) {
+      <p class="auth-error" role="alert" aria-live="polite">
+        {{ errorMessage() }}
+      </p>
+    }
   </div>
 
-  <app-primary-button
-    type="submit"
-    [loading]="isSubmitting()"
-    [disabled]="form.invalid"
-    aria-label="Log in to your account"
-  >
+  <app-primary-button type="submit" [loading]="isSubmitting()" [disabled]="form().invalid()">
     Login
   </app-primary-button>
 

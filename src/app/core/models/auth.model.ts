@@ -9,12 +9,9 @@ export interface AuthState {
 }
 
 export interface AuthResponse {
-  readonly token: string;
-  readonly user?: {
-    readonly id: string;
-    readonly email: string;
-    readonly name?: string;
-  };
+  readonly accessToken: string;
+  readonly refreshToken: string | null;
+  readonly name: string;
 }
 
 export interface AuthRequest {

@@ -11,10 +11,12 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+    position: relative;
 
     &-fields {
       display: flex;
       flex-direction: column;
+      position: relative;
       gap: 16px;
     }
 
@@ -79,5 +81,13 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  &-error {
+    @include text-preset-5();
+    color: var(--red);
+    position: absolute;
+    top: calc(100% + 3px);
+    left: 0;
   }
 }

@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { AuthRequest } from '../models/auth.model';
+import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { AUTH_URL } from '../constants/api.constants';
 import { BrowserService } from '../services/browser.service';
 
@@ -11,41 +11,60 @@ export class AuthService {
   private readonly baseUrl = inject(AUTH_URL);
   private readonly browser = inject(BrowserService);
   private readonly TOKEN_KEY = 'auth_token';
+  private readonly USER_NAME_KEY = 'auth_user_name';
 
   private readonly token = signal<string | null>(this.getStoredToken());
-  readonly isAuthenticated = computed(() => this.token() !== null);
+  private readonly name = signal<string | null>(this.getStoredName());
 
-  login(credentials: AuthRequest): Observable<string> {
-    return this.http.post(`${this.baseUrl}/login`, credentials, { responseType: 'text' }).pipe(
-      tap((token) => {
-        console.log('Login successful, received token:', token);
-        return this.handleAuthSuccess(token);
+  readonly isAuthenticated = computed(() => this.token() !== null);
+  readonly userName = this.name.asReadonly();
+
+  login(credentials: AuthRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, credentials).pipe(
+      tap((response) => {
+        console.log('Login successful, received user info:', response.name);
+        this.handleAuthSuccess(response);
       }),
     );
   }
 
-  register(credentials: AuthRequest & { name?: string }): Observable<string> {
-    return this.http.post(`${this.baseUrl}/register`, credentials, { responseType: 'text' }).pipe(
-      tap((token) => {
-        console.log('Registration successful, received token:', token);
-        return this.handleAuthSuccess(token);
+  register(credentials: AuthRequest & { name?: string }): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, credentials).pipe(
+      tap((response) => {
+        console.log('Registration successful, received user info:', response.name);
+        this.handleAuthSuccess(response);
       }),
     );
   }
 
   logout(): void {
     this.token.set(null);
-    localStorage.removeItem(this.TOKEN_KEY);
+    this.name.set(null);
+    if (this.browser.isBrowser()) {
+      localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.USER_NAME_KEY);
+    }
   }
 
-  private handleAuthSuccess(token: string): void {
-    this.token.set(token);
-    localStorage.setItem(this.TOKEN_KEY, token);
+  private handleAuthSuccess(response: AuthResponse): void {
+    this.token.set(response.accessToken);
+    this.name.set(response.name);
+    if (this.browser.isBrowser()) {
+      localStorage.setItem(this.TOKEN_KEY, response.accessToken);
+      localStorage.setItem(this.USER_NAME_KEY, response.name);
+    }
   }
 
   private getStoredToken(): string | null {
     if (this.browser.isBrowser() && window.localStorage) {
       return localStorage.getItem(this.TOKEN_KEY);
+    }
+    return null;
+  }
+
+  private getStoredName(): string | null {
+    if (this.browser.isBrowser() && window.localStorage) {
+      return localStorage.getItem(this.USER_NAME_KEY);
     }
     return null;
   }

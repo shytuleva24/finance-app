@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Modal } from '@app/shared/components/modal/modal';
 import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
-import { CategoryService } from '@app/core/services/category.service';
 import { Category, CategoryType } from '@app/core/models/category.model';
+import { MAX_TEXT_LENGTH } from '@app/core/constants/form.constants';
 
 @Component({
   selector: 'app-category-modal',
@@ -15,9 +15,6 @@ import { Category, CategoryType } from '@app/core/models/category.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryModal {
-  private readonly fb = inject(FormBuilder);
-  private readonly categoryService = inject(CategoryService);
-
   isOpen = signal(false);
   isEditMode = signal(false);
   editingCategoryId = signal<string | null>(null);
@@ -55,10 +52,21 @@ export class CategoryModal {
     this.form.patchValue({ color });
   }
 
-  form = this.fb.nonNullable.group({
-    name: this.fb.nonNullable.control('', [Validators.required]),
-    type: this.fb.nonNullable.control<CategoryType>('expense', [Validators.required]),
-    color: this.fb.nonNullable.control('#277C78', [Validators.required]),
+  readonly MAX_TEXT_LENGTH = MAX_TEXT_LENGTH;
+
+  readonly form = new FormGroup({
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(MAX_TEXT_LENGTH)],
+    }),
+    type: new FormControl<CategoryType>('expense', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    color: new FormControl('#277C78', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   open(category?: Category): void {

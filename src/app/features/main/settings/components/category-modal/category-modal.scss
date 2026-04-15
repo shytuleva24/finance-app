@@ -24,10 +24,19 @@ form {
   font-size: 14px;
   background-color: var(--white);
   color: var(--grey-900);
+  transition: border-color 0.2s;
 
   &:focus {
     outline: none;
     border-color: var(--grey-900);
+  }
+
+  &--error {
+    border-color: var(--red) !important;
+
+    &:focus {
+      border-color: var(--red) !important;
+    }
   }
 
   &:disabled {

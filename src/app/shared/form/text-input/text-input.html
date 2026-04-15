@@ -2,19 +2,24 @@
   <label [for]="inputId()" class="form-label">
     {{ label() }}
   </label>
+
   <input
     [id]="inputId()"
     [type]="type()"
+    [value]="value()"
     [placeholder]="placeholder()"
     [autocomplete]="autocomplete()"
-    [formControl]="control()"
-    [attr.aria-invalid]="ariaInvalid()"
-    [attr.aria-describedby]="ariaDescribedBy()"
+    [maxLength]="maxLength()"
+    (input)="onInput($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
     class="form-input"
+    [class.form-input--error]="hasError()"
   />
+
   @if (hasError()) {
-    <p [id]="inputId() + '-error'" class="form-error" role="alert">
-      {{ errorMessage() }}
+    <p class="form-error">
+      {{ error() }}
     </p>
   }
 </div>

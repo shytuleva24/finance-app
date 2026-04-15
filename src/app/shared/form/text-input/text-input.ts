@@ -1,16 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-
-import { merge, of, switchMap } from 'rxjs';
+import { Component, computed, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-text-input',
   standalone: true,
-  imports: [ReactiveFormsModule],
   templateUrl: './text-input.html',
   styleUrl: './text-input.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextInputComponent {
   readonly label = input.required<string>();
@@ -18,48 +12,30 @@ export class TextInputComponent {
   readonly type = input<'text' | 'email' | 'password'>('text');
   readonly autocomplete = input<string>('');
   readonly inputId = input.required<string>();
-  readonly control = input.required<FormControl<string | null>>();
-  readonly errorMessages = input<Record<string, string>>({});
+  readonly maxLength = input<number>(100);
 
-  private readonly controlState = toSignal(
-    toObservable(this.control).pipe(
-      switchMap((ctrl) => {
-        if (!ctrl) return of(null);
-        return merge(ctrl.valueChanges, ctrl.statusChanges);
-      }),
-    ),
-  );
+  readonly value = input<string>('');
+  readonly error = input<string | null>(null);
+  readonly touched = input<boolean>(false);
+
+  readonly valueChange = output<string>();
+
+  readonly isFocused = signal(false);
 
   readonly hasError = computed(() => {
-    this.controlState();
-    const ctrl = this.control();
-    return ctrl.touched && ctrl.invalid;
+    return !!(this.error() && !this.isFocused());
   });
 
-  readonly errorMessage = computed(() => {
-    if (!this.hasError()) return '';
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.valueChange.emit(value);
+  }
 
-    const errors = this.control().errors;
-    if (!errors) return '';
+  onBlur() {
+    this.isFocused.set(false);
+  }
 
-    const firstErrorKey = Object.keys(errors)[0];
-    return this.errorMessages()[firstErrorKey] || this.getDefaultErrorMessage(firstErrorKey);
-  });
-
-  readonly ariaInvalid = computed(() => (this.hasError() ? 'true' : 'false'));
-
-  readonly ariaDescribedBy = computed(() =>
-    this.hasError() ? `${this.inputId()}-error` : undefined,
-  );
-
-  private getDefaultErrorMessage(key: string): string {
-    const defaults: Record<string, string> = {
-      required: 'This field is required',
-      email: 'Please enter a valid email address',
-      pattern: 'Please enter a valid email address',
-      minlength: 'This field is too short',
-      maxlength: 'This field is too long',
-    };
-    return defaults[key] || 'Invalid value';
+  onFocus() {
+    this.isFocused.set(true);
   }
 }
