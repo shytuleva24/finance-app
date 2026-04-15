@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '@app/core/auth/auth.service';
 import { PasswordInput } from '@app/shared/form/password-input/password-input';
 import { PrimaryButton } from '@app/shared/form/primary-button/primary-button';
 import { TextInputComponent } from '@app/shared/form/text-input/text-input';
@@ -15,6 +16,9 @@ import { TextInputComponent } from '@app/shared/form/text-input/text-input';
 })
 export class SignUp {
   private readonly fb = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
   readonly isSubmitting = signal(false);
   readonly errorMessage = signal<string | null>(null);
 
@@ -49,8 +53,20 @@ export class SignUp {
 
     this.isSubmitting.set(true);
 
-    console.log(this.form.value);
+    const { name, email, password } = this.form.getRawValue();
 
-    this.isSubmitting.set(false);
+    this.auth
+      .register({ name: name ?? undefined, email: email ?? '', password: password ?? '' })
+      .subscribe({
+        next: async () => {
+          await this.router.navigate(['/overview']);
+          this.isSubmitting.set(false);
+        },
+        error: (err) => {
+          console.error('Registration error:', err);
+          this.errorMessage.set(err.error?.message || 'Registration failed. Please try again.');
+          this.isSubmitting.set(false);
+        },
+      });
   }
 }

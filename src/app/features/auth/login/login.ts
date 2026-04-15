@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@app/core/auth/auth.service';
@@ -26,18 +19,13 @@ export class Login {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  @ViewChild('googleBtn') googleBtn!: ElementRef;
-
   readonly isSubmitting = signal(false);
   readonly errorMessage = signal<string | null>(null);
 
   readonly form = this.fb.group({
     email: [
       '',
-      [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^user$/),
-      ],
+      [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
     ],
     password: ['', [Validators.required]],
   });
@@ -63,13 +51,17 @@ export class Login {
     const email = (this.form.get('email')?.value ?? '').trim().toLowerCase();
     const password = (this.form.get('password')?.value ?? '').trim();
 
-    if (email === 'user' && password === 'user') {
-      this.auth.login('user');
-      await this.router.navigate(['/overview']);
-    } else {
-      this.errorMessage.set('Invalid credentials. Use user / user for demo.');
-    }
-
-    this.isSubmitting.set(false);
+    this.auth.login({ email, password }).subscribe({
+      next: async () => {
+        await this.router.navigate(['/overview']);
+        this.isSubmitting.set(false);
+      },
+      error: (err) => {
+        console.error('Login error:', err);
+        console.log('Error details:', err);
+        this.errorMessage.set(err.error?.message || 'Invalid credentials or server error.');
+        this.isSubmitting.set(false);
+      },
+    });
   }
 }

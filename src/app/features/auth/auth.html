@@ -1,13 +1,15 @@
-<main class="auth">
-  <div class="auth__container">
-    <div class="auth__grid">
-      <app-auth-layout />
+@if (isBrowser()) {
+  <main class="auth">
+    <div class="auth__container">
+      <div class="auth__grid">
+        <app-auth-layout />
 
-      <section class="auth__form" aria-label="Authentication form">
-        <div class="auth__form-card">
-          <router-outlet />
-        </div>
-      </section>
+        <section class="auth__form" aria-label="Authentication form">
+          <div class="auth__form-card">
+            <router-outlet />
+          </div>
+        </section>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
+}

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthLayout } from '@app/layout/auth-layout/auth-layout';
+import { BrowserService } from '@app/core/services/browser.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,4 +11,7 @@ import { AuthLayout } from '@app/layout/auth-layout/auth-layout';
   styleUrl: './auth.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Auth {}
+export class Auth {
+  private readonly browser = inject(BrowserService);
+  readonly isBrowser = this.browser.isBrowser;
+}

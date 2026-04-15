@@ -1,21 +1,52 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+import { AuthRequest } from '../models/auth.model';
+import { AUTH_URL } from '../constants/api.constants';
+import { BrowserService } from '../services/browser.service';
 
-/** In-memory auth state. Replace with API/backend when implementing full-stack. */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  /** Current user id if logged in; null otherwise. */
-  private readonly currentUserId = signal<string | null>(null);
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = inject(AUTH_URL);
+  private readonly browser = inject(BrowserService);
+  private readonly TOKEN_KEY = 'auth_token';
 
-  /** True if user is authenticated. */
-  readonly isAuthenticated = computed(() => this.currentUserId() !== null);
+  private readonly token = signal<string | null>(this.getStoredToken());
+  readonly isAuthenticated = computed(() => this.token() !== null);
 
-  /** Logs in with the given user id (for demo; replace with real credentials). */
-  login(userId: string): void {
-    this.currentUserId.set(userId);
+  login(credentials: AuthRequest): Observable<string> {
+    return this.http.post(`${this.baseUrl}/login`, credentials, { responseType: 'text' }).pipe(
+      tap((token) => {
+        console.log('Login successful, received token:', token);
+        return this.handleAuthSuccess(token);
+      }),
+    );
   }
 
-  /** Logs out the current user. */
+  register(credentials: AuthRequest & { name?: string }): Observable<string> {
+    return this.http.post(`${this.baseUrl}/register`, credentials, { responseType: 'text' }).pipe(
+      tap((token) => {
+        console.log('Registration successful, received token:', token);
+        return this.handleAuthSuccess(token);
+      }),
+    );
+  }
+
   logout(): void {
-    this.currentUserId.set(null);
+    this.token.set(null);
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  private handleAuthSuccess(token: string): void {
+    this.token.set(token);
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  private getStoredToken(): string | null {
+    if (this.browser.isBrowser() && window.localStorage) {
+      return localStorage.getItem(this.TOKEN_KEY);
+    }
+    return null;
   }
 }

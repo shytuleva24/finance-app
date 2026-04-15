@@ -7,3 +7,17 @@ export interface AuthState {
   readonly token: string | null;
   readonly avatar?: string | null;
 }
+
+export interface AuthResponse {
+  readonly token: string;
+  readonly user?: {
+    readonly id: string;
+    readonly email: string;
+    readonly name?: string;
+  };
+}
+
+export interface AuthRequest {
+  readonly email: string;
+  readonly password: string;
+}
