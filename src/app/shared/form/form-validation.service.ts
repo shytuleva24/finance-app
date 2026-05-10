@@ -24,7 +24,7 @@ export class FormValidationService {
    * Validates a string value against provided rules.
    * Returns an error message if invalid, or null if valid.
    */
-  validate(val: never, rules: ValidationRules): string | null {
+  validate(val: unknown, rules: ValidationRules): string | null {
     const stringVal = val === null || val === undefined ? '' : String(val);
 
     if (rules.required && !stringVal.trim()) {

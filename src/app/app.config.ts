@@ -13,7 +13,7 @@ import { provideNgxMask } from 'ngx-mask';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    { provide: API_URL, useValue: 'http://192.168.0.109:8080' },
+    { provide: API_URL, useValue: 'http://192.168.0.49:8080' },
     provideHttpClient(withInterceptors([authInterceptor, timeoutInterceptor])),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),

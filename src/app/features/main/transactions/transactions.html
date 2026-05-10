@@ -2,16 +2,18 @@
   <header class="page-header">
     <h1>Transactions</h1>
     <div class="header-actions">
-      <div class="filter-group">
-        <app-select-input
-          label="Category Filter"
-          inputId="categoryFilter"
-          [options]="categoryOptions()"
-          [value]="String(facade.filterCategoryId())"
-          (valueChange)="onCategoryFilterChange($event)"
-          class="filter-select"
-        />
-      </div>
+      @if (categoryOptions().length) {
+        <div class="filter-group">
+          <app-select-input
+            label="Category Filter"
+            inputId="categoryFilter"
+            [options]="categoryOptions()"
+            [value]="String(facade.filterCategoryId())"
+            (valueChange)="onCategoryFilterChange($event)"
+            class="filter-select"
+          />
+        </div>
+      }
       <app-primary-button className="btn-add" (click)="facade.openCreate()">
         + Add Transaction
       </app-primary-button>

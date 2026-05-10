@@ -24,6 +24,7 @@ export class Transactions {
   protected readonly facade = inject(TransactionFacade);
 
   protected readonly categoryOptions = computed<SelectOption[]>(() => {
+    if (this.facade.categories().length === 0) return [];
     return [
       { label: 'All Categories', value: 'null' },
       ...this.facade.categories().map((cat) => ({
