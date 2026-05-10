@@ -37,7 +37,7 @@ export class BudgetModal {
   });
 
   /**
-   * Filter categories based on the selected budget type (expense/income).
+   * Filter categories-list based on the selected budget type (expense/income).
    */
   filteredCategories = computed(() => {
     const type = this.form.get('type')?.value;
@@ -47,19 +47,19 @@ export class BudgetModal {
   });
 
   /**
-   * Filter out categories that already have budgets (only in Add mode).
+   * Filter out categories-list that already have budgets (only in Add mode).
    */
   // availableCategories = computed(() => {
   //   const existingBudgetCategoryIds = this.budgetStore
   //     .budgets()
   //     .map((b) => b.categoryId);
-  //   const categories = this.filteredCategories();
+  //   const categories-list = this.filteredCategories();
   //
   //   if (this.isEditMode()) {
-  //     return categories;
+  //     return categories-list;
   //   }
   //
-  //   return categories.filter((c) => !existingBudgetCategoryIds.includes(c.id));
+  //   return categories-list.filter((c) => !existingBudgetCategoryIds.includes(c.id));
   // });
 
   open(budget?: Budget): void {

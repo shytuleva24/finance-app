@@ -1,14 +1,14 @@
 import {
-  Directive,
   computed,
+  Directive,
+  effect,
   inject,
   input,
   output,
   signal,
-  effect,
   untracked,
 } from '@angular/core';
-import { FormValidationService, ValidationRules } from '@app/core/services/form-validation.service';
+import { FormValidationService, ValidationRules } from '@app/shared/form/form-validation.service';
 
 export type ShowErrorMode = 'blur' | 'always' | 'submit';
 
@@ -44,17 +44,12 @@ export abstract class BaseFormField {
     const controlledValue = this.value();
     const uncontrolledValue = this.internalValue();
 
-    // If there's an uncontrolled value (from typing), we use it.
-    // If the parent changes the value (e.g., on reset), we should prioritize the parent's value
-    // but only if the change was intended as a "set" from above.
     return uncontrolledValue !== null ? uncontrolledValue : controlledValue;
   });
 
   constructor() {
-    // When the parent `value` input changes, we should clear our internal "uncontrolled" state
-    // so that the component can be reset or updated programmatically.
     effect(() => {
-      this.value(); // Track parent value change
+      this.value();
       untracked(() => {
         this.internalValue.set(null);
         this.touched.set(false);

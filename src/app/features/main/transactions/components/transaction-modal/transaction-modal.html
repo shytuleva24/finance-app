@@ -1,60 +1,66 @@
-<app-modal [isOpen]="isOpen()" (closed)="close()" title="Add Transaction">
-  <form [formGroup]="form">
+<app-modal
+  [isOpen]="facade.isModalOpen()"
+  (closed)="close()"
+  [title]="facade.isEditMode() ? 'Edit Transaction' : 'Add Transaction'"
+>
+  <form (submit)="$event.preventDefault(); submit()">
     <div class="form-group">
-      <label for="transactionType">Transaction Type</label>
-      <div class="type-selector">
-        <label>
-          <input type="radio" formControlName="type" value="expense" />
-          <span>Expense</span>
-        </label>
-        <label>
-          <input type="radio" formControlName="type" value="income" />
-          <span>Income</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="categoryId">Category</label>
-      <select id="categoryId" formControlName="categoryId" class="select-input">
-        <option value="" disabled>Select a category</option>
-        <!--        @for (cat of filteredCategories(); track cat.id) {-->
-        <!--          <option [value]="cat.id">{{ cat.name }}</option>-->
-        <!--        }-->
-      </select>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label for="amount">Amount</label>
-        <input
-          id="amount"
-          type="number"
-          formControlName="amount"
-          class="text-input"
-          placeholder="0.00"
-        />
-      </div>
-      <div class="form-group">
-        <label for="date">Date</label>
-        <input id="date" type="date" formControlName="date" class="text-input" />
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input
-        id="description"
-        type="text"
-        formControlName="description"
-        class="text-input"
-        placeholder="What was this for?"
+      <app-type-selector
+        label="Transaction Type"
+        [value]="facade.form.data().type"
+        (valueChange)="facade.form.updateField('type', $event)"
       />
     </div>
 
+    <div class="form-group">
+      <app-select-input
+        label="Category"
+        inputId="categoryId"
+        emptyLabel="Select a category"
+        [options]="categoryOptions()"
+        [value]="facade.form.data().categoryId"
+        (valueChange)="facade.form.updateField('categoryId', $event)"
+        [serverError]="facade.form.errors()['categoryId']"
+      />
+    </div>
+
+    <div class="form-row">
+      <app-number-input
+        label="Amount"
+        inputId="amount"
+        placeholder="0.00"
+        [value]="facade.form.data().amount"
+        (valueChange)="facade.form.updateField('amount', $event)"
+      />
+      <app-date-input
+        label="Date"
+        inputId="date"
+        [value]="facade.form.data().date"
+        (valueChange)="facade.form.updateField('date', $event)"
+      />
+    </div>
+
+    <app-text-input
+      label="Description"
+      inputId="description"
+      placeholder="What was this for?"
+      [value]="facade.form.data().description"
+      (valueChange)="facade.form.updateField('description', $event)"
+    />
+
+    @if (facade.form.globalError()) {
+      <div class="form-error-summary" role="alert">
+        {{ facade.form.globalError() }}
+      </div>
+    }
+
     <div class="actions">
-      <app-primary-button type="submit" [disabled]="form.invalid">
-        Add Transaction
+      <app-primary-button
+        type="submit"
+        [disabled]="!facade.form.isValid()"
+        [loading]="facade.form.isSubmitting()"
+      >
+        {{ facade.isEditMode() ? 'Save Changes' : 'Add Transaction' }}
       </app-primary-button>
     </div>
   </form>

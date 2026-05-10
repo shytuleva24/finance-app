@@ -24,20 +24,22 @@ export class FormValidationService {
    * Validates a string value against provided rules.
    * Returns an error message if invalid, or null if valid.
    */
-  validate(val: string, rules: ValidationRules): string | null {
-    if (rules.required && !val.trim()) {
+  validate(val: never, rules: ValidationRules): string | null {
+    const stringVal = val === null || val === undefined ? '' : String(val);
+
+    if (rules.required && !stringVal.trim()) {
       return rules.required;
     }
 
-    if (rules.minLength && val.length < rules.minLength.length) {
+    if (rules.minLength && stringVal.length < rules.minLength.length) {
       return rules.minLength.message;
     }
 
-    if (rules.maxLength && val.length > rules.maxLength.length) {
+    if (rules.maxLength && stringVal.length > rules.maxLength.length) {
       return rules.maxLength.message;
     }
 
-    if (rules.pattern && !rules.pattern.regex.test(val)) {
+    if (rules.pattern && !rules.pattern.regex.test(stringVal)) {
       return rules.pattern.message;
     }
 

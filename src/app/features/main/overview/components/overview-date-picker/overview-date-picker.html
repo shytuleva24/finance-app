@@ -1,0 +1,31 @@
+<div class="date-picker-container">
+  <div class="date-picker-controls">
+    <div class="preset-selector">
+      <mat-select [formControl]="presetControl" panelClass="custom-select-panel">
+        @for (preset of presets; track preset.value) {
+          <mat-option [value]="preset.value">{{ preset.label }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="range-display" (click)="picker.open()">
+      <span class="range-text">
+        @if (rangeForm.value.start && rangeForm.value.end) {
+          {{ rangeForm.value.start | date: 'MMM d, y' }} -
+          {{ rangeForm.value.end | date: 'MMM d, y' }}
+        } @else {
+          Select range
+        }
+      </span>
+      <mat-icon class="calendar-icon">calendar_today</mat-icon>
+
+      <mat-date-range-input [formGroup]="rangeForm" [rangePicker]="picker" class="hidden-input">
+        <input matStartDate formControlName="start" />
+        <input matEndDate formControlName="end" />
+      </mat-date-range-input>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </div>
+  </div>
+</div>

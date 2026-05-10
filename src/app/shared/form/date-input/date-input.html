@@ -1,0 +1,26 @@
+<div class="form-field" [class.form-field--disabled]="disabled()">
+  <label [for]="inputId()" class="form-label">
+    {{ label() }}
+  </label>
+
+  <input
+    [id]="inputId()"
+    type="date"
+    [value]="currentValue()"
+    [disabled]="disabled()"
+    [readOnly]="readonly()"
+    [attr.aria-invalid]="hasError()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    (input)="onInput($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    class="form-input"
+    [class.form-input--error]="hasError()"
+  />
+
+  @if (hasError()) {
+    <p [id]="inputId() + '-error'" class="form-error" role="alert">
+      {{ error() }}
+    </p>
+  }
+</div>

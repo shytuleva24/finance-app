@@ -1,44 +1,171 @@
 <div class="transactions-container">
   <header class="page-header">
     <h1>Transactions</h1>
-    <app-primary-button className="btn-add" (click)="openAddModal()"
-      >+ Add Transaction</app-primary-button
-    >
+    <div class="header-actions">
+      <div class="filter-group">
+        <app-select-input
+          label="Category Filter"
+          inputId="categoryFilter"
+          [options]="categoryOptions()"
+          [value]="String(facade.filterCategoryId())"
+          (valueChange)="onCategoryFilterChange($event)"
+          class="filter-select"
+        />
+      </div>
+      <app-primary-button className="btn-add" (click)="facade.openCreate()">
+        + Add Transaction
+      </app-primary-button>
+    </div>
   </header>
 
   <div class="table-container">
     <table>
       <thead>
         <tr>
-          <th>Transaction Name</th>
-          <th>Category</th>
-          <th>Transaction Date</th>
-          <th class="text-right">Amount</th>
+          <th class="sortable" (click)="facade.toggleSort('description')">
+            <div class="th-content">
+              Category
+              <span
+                class="sort-icon"
+                [class.active]="facade.sortBy() === 'description'"
+                [class.asc]="facade.sortDirection() === 'asc' && facade.sortBy() === 'description'"
+              >
+                ↓
+              </span>
+            </div>
+          </th>
+          <th class="sortable" (click)="facade.toggleSort('category')">
+            <div class="th-content">
+              Description
+              <span
+                class="sort-icon"
+                [class.active]="facade.sortBy() === 'category'"
+                [class.asc]="facade.sortDirection() === 'asc' && facade.sortBy() === 'category'"
+              >
+                ↓
+              </span>
+            </div>
+          </th>
+          <th class="sortable" (click)="facade.toggleSort('date')">
+            <div class="th-content">
+              Transaction Date
+              <span
+                class="sort-icon"
+                [class.active]="facade.sortBy() === 'date'"
+                [class.asc]="facade.sortDirection() === 'asc' && facade.sortBy() === 'date'"
+              >
+                ↓
+              </span>
+            </div>
+          </th>
+          <th class="text-right sortable" (click)="facade.toggleSort('amount')">
+            <div class="th-content justify-end">
+              Amount
+              <span
+                class="sort-icon"
+                [class.active]="facade.sortBy() === 'amount'"
+                [class.asc]="facade.sortDirection() === 'asc' && facade.sortBy() === 'amount'"
+              >
+                ↓
+              </span>
+            </div>
+          </th>
+          <th class="text-right">Actions</th>
         </tr>
       </thead>
       <tbody>
-        @for (tx of transactions(); track tx.id) {
+        @for (tx of facade.viewModels(); track tx.id) {
           <tr>
-            <td class="tx-name">
-              <div class="avatar" [style.background-color]="">
-                {{ tx.description.charAt(0) }}
+            <td class="tx-name" (click)="facade.openEdit(tx)">
+              <div class="avatar" [style.background-color]="tx.categoryColor">
+                {{ tx.categoryIcon }}
               </div>
-              <span>{{ tx.description }}</span>
+              <span>{{ tx.categoryName }}</span>
             </td>
-            <td>1</td>
+            <td>
+              <span class="category-badge">
+                {{ tx.description || '' }}
+              </span>
+            </td>
             <td class="tx-date">{{ tx.date | date: 'dd MMM yyyy' }}</td>
-            <td class="text-right tx-amount" [class.income]="tx.type === 'income'">
-              {{ tx.type === 'income' ? '+' : '-' }}{{ tx.amount | currency: tx.currency }}
+            <td class="text-right tx-amount" [class.income]="tx.isIncome">
+              {{ tx.displayAmount | currency }}
+            </td>
+            <td class="text-right actions-cell">
+              <button class="action-btn edit-btn" (click)="facade.openEdit(tx)" title="Edit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button
+                class="action-btn delete-btn"
+                (click)="onDeleteTransaction(tx.id)"
+                title="Delete"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  ></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
             </td>
           </tr>
         } @empty {
           <tr>
-            <td colspan="4" class="empty-state">No transactions found.</td>
+            <td colspan="5" class="empty-state">No transactions found.</td>
           </tr>
         }
       </tbody>
     </table>
   </div>
+
+  @if (facade.transactionsPage(); as page) {
+    @if (page.totalPages > 1) {
+      <div class="pagination">
+        <button class="page-btn" [disabled]="page.first" (click)="facade.setPage(page.number - 1)">
+          &larr; Previous
+        </button>
+        <div class="page-info">Page {{ page.number + 1 }} of {{ page.totalPages }}</div>
+        <button class="page-btn" [disabled]="page.last" (click)="facade.setPage(page.number + 1)">
+          Next &rarr;
+        </button>
+      </div>
+    }
+  }
 </div>
 
 <app-transaction-modal />
+
+<app-confirm-action-dialog
+  [isOpen]="facade.deleteModalState.isOpen()"
+  [title]="'Delete \'' + (facade.deleteModalState.transactionDescription() || 'Transaction') + '\''"
+  [description]="'Are you sure you want to delete this transaction? This action cannot be undone.'"
+  confirmText="Delete Transaction"
+  confirmVariant="danger"
+  (closed)="closeDeleteModal()"
+  (confirmed)="onConfirmDelete()"
+/>

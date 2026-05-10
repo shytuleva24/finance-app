@@ -1,8 +1,8 @@
 import { computed, inject, signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormValidationService, ValidationRules } from '@app/core/services/form-validation.service';
+import { FormValidationService, ValidationRules } from '@app/shared/form/form-validation.service';
 
-export type FormFields = Record<string, string>;
+export type FormFields = Record<string, never>;
 export type FieldErrors<T extends FormFields> = Record<keyof T, string | null>;
 export type FormValidations<T extends FormFields> = Record<keyof T, ValidationRules>;
 

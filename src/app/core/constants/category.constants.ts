@@ -1,4 +1,4 @@
-import { CategoryType } from '@app/core/models/category.model';
+import { TransactionType } from '@app/core/models/transaction.model';
 
 export const AVAILABLE_COLORS = [
   { name: 'Green', color: '#277C78' },
@@ -31,6 +31,6 @@ export const AVAILABLE_COLORS = [
 
 export const INITIAL_CATEGORY_FORM_DATA = {
   name: '',
-  type: 'OUTCOME' as CategoryType,
+  type: 'OUTCOME' as TransactionType,
   color: '#277C78',
 };

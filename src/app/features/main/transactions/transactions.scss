@@ -6,6 +6,24 @@
   .page-header {
     @include page-header;
 
+    .header-actions {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+
+      .filter-group {
+        min-width: 200px;
+
+        ::v-deep .form-field {
+          margin-bottom: 0;
+        }
+
+        ::v-deep .form-label {
+          display: none; // Hide label to save space in header
+        }
+      }
+    }
+
     .btn-add {
       width: auto;
       padding: 16px 24px;
@@ -26,10 +44,54 @@
         color: var(--grey-500);
         padding-bottom: 24px;
         border-bottom: 1px solid var(--grey-100);
+
+        .th-content {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          &.justify-end {
+            justify-content: flex-end;
+          }
+        }
+
+        &.sortable {
+          cursor: pointer;
+          user-select: none;
+          transition: color 0.2s;
+
+          &:hover {
+            color: var(--grey-900);
+
+            .sort-icon {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        .sort-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          opacity: 0;
+          transition: all 0.2s;
+          color: var(--grey-900);
+
+          &.active {
+            opacity: 1;
+            color: var(--grey-900);
+            font-weight: bold;
+          }
+
+          &.asc {
+            transform: rotate(180deg);
+          }
+        }
       }
 
       td {
-        padding: 24px 0;
+        padding: 12px 0;
         border-bottom: 1px solid var(--grey-100);
         font-size: 14px;
         color: var(--grey-900);
@@ -63,8 +125,39 @@
 
       .tx-amount {
         font-weight: 700;
+
         &.income {
           color: var(--green);
+        }
+      }
+
+      .actions-cell {
+        white-space: nowrap;
+        width: 80px;
+      }
+
+      .action-btn {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 4px;
+        color: var(--grey-500);
+        transition: all 0.2s;
+        margin-left: 4px;
+
+        &:hover {
+          background-color: var(--grey-100);
+          color: var(--grey-900);
+        }
+
+        &.delete-btn:hover {
+          background-color: rgba(201, 71, 47, 0.1);
+          color: var(--red);
+        }
+
+        svg {
+          display: block;
         }
       }
 
@@ -73,6 +166,40 @@
         color: var(--grey-500);
         padding: 48px 0;
       }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 24px;
+
+    .page-btn {
+      background-color: var(--white);
+      border: 1px solid var(--grey-300);
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: var(--grey-900);
+      cursor: pointer;
+      transition: all 0.2s;
+      @include text-preset-4-bold;
+
+      &:hover:not(:disabled) {
+        border-color: var(--grey-900);
+        background-color: var(--grey-100);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .page-info {
+      color: var(--grey-500);
+      @include text-preset-4;
     }
   }
 }

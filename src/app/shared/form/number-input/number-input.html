@@ -1,0 +1,35 @@
+<div class="form-field" [class.form-field--disabled]="disabled()">
+  <label [for]="inputId()" class="form-label">
+    {{ label() }}
+  </label>
+
+  <input
+    [id]="inputId()"
+    type="text"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [readOnly]="readonly()"
+    [attr.aria-invalid]="hasError()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    (ngModelChange)="onMaskedValueChange($event)"
+    [ngModel]="currentValue()"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    class="form-input"
+    [class.form-input--error]="hasError()"
+    [attr.inputmode]="'decimal'"
+    [attr.maxlength]="19"
+    decimalMarker="."
+    mask="separator.2"
+    [dropSpecialCharacters]="false"
+    [allowNegativeNumbers]="false"
+    tabindex="0"
+    thousandSeparator=","
+  />
+
+  @if (hasError()) {
+    <p [id]="inputId() + '-error'" class="form-error" role="alert">
+      {{ error() }}
+    </p>
+  }
+</div>

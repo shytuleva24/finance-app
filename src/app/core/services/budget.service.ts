@@ -11,11 +11,11 @@ export class BudgetService {
   private readonly budgets = signal<Budget[]>(this.getInitialBudgets());
 
   readonly budgetViews = computed<BudgetView[]>(() => {
-    const transactions = this.transactionService.allTransactions();
+    const transactions = this.transactionService.transactions();
     return this.budgets().map((budget) => {
       const spent = transactions
-        .filter((t) => t.categoryId === budget.categoryId && t.type === 'expense')
-        .reduce((sum, t) => sum + t.amount, 0);
+        .filter((t) => t.categoryId === budget.categoryId && t.type === 'OUTCOME')
+        .reduce((sum, t) => sum + Number(t.amount), 0);
 
       return {
         ...budget,

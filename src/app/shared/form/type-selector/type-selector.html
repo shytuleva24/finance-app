@@ -1,0 +1,27 @@
+<fieldset class="type-fieldset">
+  <legend class="type-legend">{{ label() }}</legend>
+  <div class="type-selector">
+    <label [for]="name() + '-expense'" class="type-label">
+      <input
+        [id]="name() + '-expense'"
+        type="radio"
+        [name]="name()"
+        [checked]="value() === 'OUTCOME'"
+        (change)="onTypeChange('OUTCOME')"
+        class="type-radio"
+      />
+      <span class="type-text">Expense</span>
+    </label>
+    <label [for]="name() + '-income'" class="type-label">
+      <input
+        [id]="name() + '-income'"
+        type="radio"
+        [name]="name()"
+        [checked]="value() === 'INCOME'"
+        (change)="onTypeChange('INCOME')"
+        class="type-radio"
+      />
+      <span class="type-text">Income</span>
+    </label>
+  </div>
+</fieldset>

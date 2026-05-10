@@ -1,0 +1,12 @@
+<div class="chart-container">
+  @if (data() && data()!.categoryTotals.length > 0) {
+    <canvas baseChart [data]="chartData()" [options]="chartOptions" [type]="doughnutChartType">
+    </canvas>
+    <div class="chart-content">
+      <span class="chart-total-label">Total Expenses</span>
+      <span class="chart-total-value">{{ data()?.totalExpenses | currency }}</span>
+    </div>
+  } @else {
+    <div class="no-data">No data available</div>
+  }
+</div>

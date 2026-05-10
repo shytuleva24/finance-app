@@ -1,7 +1,7 @@
 <app-modal
-  [isOpen]="isOpen()"
+  [isOpen]="facade.isOpen()"
   (closed)="close()"
-  [title]="isEditMode() ? 'Edit Category' : 'Add New Category'"
+  [title]="facade.isEditMode() ? 'Edit Category' : 'Add New Category'"
 >
   <form (submit)="$event.preventDefault(); submit()">
     <div class="form-group">
@@ -9,38 +9,21 @@
         label="Category Name"
         inputId="name"
         placeholder="e.g. Groceries"
-        [value]="form.data().name"
-        (valueChange)="form.updateField('name', $event)"
+        [value]="facade.form.data().name"
+        (valueChange)="facade.form.updateField('name', $event)"
         [maxLength]="MAX_TEXT_LENGTH"
         [validations]="nameValidations"
-        [serverError]="form.errors().name"
+        [serverError]="facade.form.errors().name"
       />
     </div>
 
     <div class="form-group">
-      <fieldset>
-        <legend>Type</legend>
-        <div class="type-selector">
-          <label>
-            <input
-              type="radio"
-              name="categoryType"
-              [checked]="form.data().type === 'OUTCOME'"
-              (change)="form.updateField('type', 'OUTCOME')"
-            />
-            <span>Expense</span>
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="categoryType"
-              [checked]="form.data().type === 'INCOME'"
-              (change)="form.updateField('type', 'INCOME')"
-            />
-            <span>Income</span>
-          </label>
-        </div>
-      </fieldset>
+      <app-type-selector
+        label="Category Type"
+        name="categoryType"
+        [value]="facade.form.data().type"
+        (valueChange)="facade.form.updateField('type', $event)"
+      />
     </div>
 
     <div class="form-group">
@@ -52,12 +35,12 @@
               type="button"
               class="color-option"
               [style.background-color]="c.color"
-              [class.selected]="form.data().color === c.color"
-              [class.used]="isColorUsed(c.color)"
+              [class.selected]="facade.form.data().color === c.color"
+              [class.used]="facade.isColorUsed(c.color)"
               (click)="selectColor(c.color)"
-              [title]="c.name + (isColorUsed(c.color) ? ' (Already in use)' : '')"
+              [title]="c.name + (facade.isColorUsed(c.color) ? ' (Already in use)' : '')"
             >
-              @if (form.data().color === c.color) {
+              @if (facade.form.data().color === c.color) {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -71,7 +54,7 @@
                 >
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-              } @else if (isColorUsed(c.color)) {
+              } @else if (facade.isColorUsed(c.color)) {
                 <div class="used-indicator"></div>
               }
             </button>
@@ -80,13 +63,19 @@
       </fieldset>
     </div>
 
+    @if (facade.form.globalError()) {
+      <div class="form-error-summary" role="alert">
+        {{ facade.form.globalError() }}
+      </div>
+    }
+
     <div class="actions">
       <app-primary-button
         type="submit"
-        [disabled]="!form.isValid()"
-        [loading]="form.isSubmitting()"
+        [disabled]="!facade.form.isValid()"
+        [loading]="facade.form.isSubmitting()"
       >
-        {{ isEditMode() ? 'Save Changes' : 'Add Category' }}
+        {{ facade.isEditMode() ? 'Save Changes' : 'Add Category' }}
       </app-primary-button>
     </div>
   </form>

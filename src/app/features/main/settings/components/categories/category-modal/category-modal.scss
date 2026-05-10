@@ -1,4 +1,4 @@
-@use '../../../../../styles/mixins' as *;
+@use '../../../../../../styles/mixins' as *;
 
 form {
   display: flex;
@@ -46,40 +46,6 @@ form {
   }
 }
 
-.type-selector {
-  display: flex;
-  background: var(--beige-100);
-  padding: 4px;
-  border-radius: 8px;
-
-  label {
-    flex: 1;
-    cursor: pointer;
-
-    input {
-      display: none;
-    }
-
-    span {
-      @include form-label;
-      @include text-preset-4();
-      display: block;
-      text-align: center;
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: 500;
-      color: var(--grey-500);
-      transition: all 0.2s;
-    }
-
-    input:checked + span {
-      background: var(--white);
-      color: var(--grey-900);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-  }
-}
-
 .color-grid {
   display: grid;
   grid-template-columns: repeat(13, 1fr);
@@ -110,7 +76,7 @@ form {
     svg {
       width: 12px;
       height: 12px;
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
     }
 
     .used-indicator {
@@ -119,7 +85,7 @@ form {
       background-color: var(--white);
       border-radius: 50%;
       opacity: 0.6;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     &.used {
@@ -134,4 +100,14 @@ form {
 
 .actions {
   margin-top: 12px;
+}
+
+.form-error-summary {
+  @include text-preset-5();
+  color: var(--red);
+  background-color: rgba(201, 71, 47, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  border: 1px solid rgba(201, 71, 47, 0.2);
 }

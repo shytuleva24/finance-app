@@ -1,4 +1,4 @@
-import { inject, Injectable, computed } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { CATEGORIES_URL } from '@app/core/constants/api.constants';
 import { Category } from '@app/core/models/category.model';
@@ -11,9 +11,13 @@ export class CategoryService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = inject(CATEGORIES_URL);
 
-  private readonly categoriesResource = httpResource<Category[]>(() => this.baseUrl);
+  private readonly categoriesResource = httpResource<Category[]>(() => this.baseUrl as string);
 
-  readonly categories = computed(() => this.categoriesResource.value() ?? []);
+  readonly categories = computed(() => {
+    const val = this.categoriesResource.value();
+    return Array.isArray(val) ? val : [];
+  });
+
   readonly loading = this.categoriesResource.isLoading;
   readonly error = this.categoriesResource.error;
 

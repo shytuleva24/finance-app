@@ -26,6 +26,7 @@
   "packageManager": "npm@10.9.2",
   "dependencies": {
     "@angular/animations": "^21.1.2",
+    "@angular/cdk": "^21.2.7",
     "@angular/common": "^21.1.0",
     "@angular/compiler": "^21.1.0",
     "@angular/core": "^21.1.0",
@@ -37,6 +38,7 @@
     "chart.js": "^4.4.6",
     "express": "^5.1.0",
     "ng2-charts": "^8.0.0",
+    "ngx-mask": "^21.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -51,6 +53,7 @@
     "@angular/build": "^21.1.0",
     "@angular/cli": "^21.1.0",
     "@angular/compiler-cli": "^21.1.0",
+    "@angular/material": "^21.2.7",
     "@eslint/js": "^9.15.0",
     "@nx/angular": "22.4.4",
     "@nx/workspace": "22.4.4",

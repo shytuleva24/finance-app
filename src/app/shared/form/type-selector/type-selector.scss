@@ -1,0 +1,51 @@
+@use '../../../styles/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.type-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.type-legend {
+  @include form-label;
+  margin-bottom: 8px;
+}
+
+.type-selector {
+  display: flex;
+  background: var(--beige-100);
+  padding: 4px;
+  border-radius: 8px;
+
+  .type-label {
+    flex: 1;
+    cursor: pointer;
+
+    .type-radio {
+      display: none;
+    }
+
+    .type-text {
+      @include form-label;
+      @include text-preset-4();
+      display: block;
+      text-align: center;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 500;
+      color: var(--grey-500);
+      transition: all 0.2s;
+    }
+
+    .type-radio:checked + .type-text {
+      background: var(--white);
+      color: var(--grey-900);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

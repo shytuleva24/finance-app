@@ -74,7 +74,7 @@
       <h3>Expenses</h3>
       <ng-container
         [ngTemplateOutlet]="categoryList"
-        [ngTemplateOutletContext]="{ $implicit: expenseCategories() }"
+        [ngTemplateOutletContext]="{ $implicit: facade.expenseCategories() }"
       />
     </section>
 
@@ -83,7 +83,7 @@
       <h3>Income</h3>
       <ng-container
         [ngTemplateOutlet]="categoryList"
-        [ngTemplateOutletContext]="{ $implicit: incomeCategories() }"
+        [ngTemplateOutletContext]="{ $implicit: facade.incomeCategories() }"
       />
     </section>
   }
@@ -91,8 +91,8 @@
 
 <app-category-modal />
 <app-confirm-action-dialog
-  [isOpen]="isDeleteModalOpen()"
-  [title]="'Delete \'' + categoryToDeleteName() + '\''"
+  [isOpen]="facade.deleteModalState.isOpen()"
+  [title]="'Delete \'' + facade.deleteModalState.categoryName() + '\''"
   [description]="'Are you sure you want to delete this category? This action cannot be undone and may affect your transactions.'"
   confirmText="Delete Category"
   confirmVariant="danger"

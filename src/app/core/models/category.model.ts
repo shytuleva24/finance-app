@@ -1,4 +1,4 @@
-export type CategoryType = 'OUTCOME' | 'INCOME';
+import { TransactionType } from '@app/core/models/transaction.model';
 
 /**
  * Represents a financial category for classifying transactions and budgets.
@@ -6,6 +6,6 @@ export type CategoryType = 'OUTCOME' | 'INCOME';
 export interface Category {
   readonly id: number;
   readonly name: string;
-  readonly type: CategoryType;
+  readonly type: TransactionType;
   readonly color: string;
 }

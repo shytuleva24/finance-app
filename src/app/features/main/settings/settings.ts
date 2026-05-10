@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { SettingsCategories } from '@app/features/main/settings/components/categories/settings-categories';
 import { AuthService } from '@app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { ConfirmActionDialog } from '@app/shared/components/confirm-action-dialog/confirm-action-dialog';
+import { CategoriesList } from '@app/features/main/settings/components/categories/categories-list/categories-list';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [SettingsCategories, ConfirmActionDialog],
+  imports: [ConfirmActionDialog, CategoriesList],
   templateUrl: './settings.html',
   styleUrl: './settings.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

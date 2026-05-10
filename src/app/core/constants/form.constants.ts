@@ -1,4 +1,4 @@
-import { ValidationRules } from '@app/core/services/form-validation.service';
+import { ValidationRules } from '@app/shared/form/form-validation.service';
 
 export const MAX_TEXT_LENGTH = 100;
 

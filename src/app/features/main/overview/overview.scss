@@ -67,7 +67,6 @@
 
   .section-card {
     @include card;
-    height: 100%;
 
     .section-header {
       display: flex;
@@ -83,6 +82,7 @@
         @include text-preset-4;
         color: var(--grey-500);
         text-decoration: none;
+
         &:hover {
           color: var(--grey-900);
         }
@@ -127,6 +127,21 @@
         &.income {
           color: var(--green);
         }
+      }
+    }
+
+    .budget-chart-section {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+
+      @media (max-width: 1200px) {
+        flex-direction: column;
+      }
+
+      app-overview-chart {
+        flex: 1;
+        max-width: 240px;
       }
     }
   }

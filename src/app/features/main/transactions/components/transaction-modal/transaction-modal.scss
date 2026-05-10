@@ -1,3 +1,5 @@
+@use "../../../../../styles/mixins" as *;
+
 form {
   display: flex;
   flex-direction: column;
@@ -49,7 +51,7 @@ form {
     input:checked + span {
       background: var(--white);
       color: var(--grey-900);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -71,4 +73,14 @@ form {
 
 .actions {
   margin-top: 12px;
+}
+
+.form-error-summary {
+  @include text-preset-5();
+  color: var(--red);
+  background-color: rgba(201, 71, 47, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  border: 1px solid rgba(201, 71, 47, 0.2);
 }
