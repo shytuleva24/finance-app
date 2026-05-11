@@ -1,9 +1,8 @@
 <section class="overview-container">
   <div class="overview-header">
     <h1 class="page-title">Overview</h1>
+    <app-overview-date-picker (rangeChange)="updateRange($event)" />
   </div>
-
-  <app-overview-date-picker (rangeChange)="updateRange($event)" />
 
   <div class="summary-cards">
     <div class="summary-card dark">

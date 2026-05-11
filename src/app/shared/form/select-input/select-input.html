@@ -1,7 +1,9 @@
 <div class="form-field" [class.form-field--disabled]="disabled()">
-  <label [for]="inputId()" class="form-label">
-    {{ label() }}
-  </label>
+  @if (label()) {
+    <label [for]="inputId()" class="form-label">
+      {{ label() }}
+    </label>
+  }
 
   <div class="select-wrapper">
     <select
@@ -14,7 +16,9 @@
       class="form-select"
       [class.form-select--error]="hasError()"
     >
-      <option value="" disabled>{{ emptyLabel() }}</option>
+      @if (showEmptyOption()) {
+        <option value="" disabled>{{ emptyLabel() }}</option>
+      }
       @for (option of options(); track option.value) {
         <option [value]="option.value">{{ option.label }}</option>
       }

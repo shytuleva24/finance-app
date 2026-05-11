@@ -15,6 +15,7 @@ export interface SelectOption {
 export class SelectInputComponent extends BaseFormField {
   readonly options = input<SelectOption[]>([]);
   readonly emptyLabel = input<string>('Select an option');
+  readonly showEmptyOption = input<boolean>(true);
 
   onSelectChange(event: Event) {
     if (this.disabled() || this.readonly()) return;

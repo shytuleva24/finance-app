@@ -17,7 +17,7 @@ export abstract class BaseFormField {
   protected readonly validator = inject(FormValidationService);
 
   // Inputs
-  readonly label = input.required<string>();
+  readonly label = input<string>('');
   readonly placeholder = input<string>('');
   readonly inputId = input.required<string>();
   readonly maxLength = input<number>(100);

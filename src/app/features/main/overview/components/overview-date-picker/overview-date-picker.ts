@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverviewService } from '@app/core/services/overview.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SelectInputComponent } from '@app/shared/form/select-input/select-input';
+
+export type PresetType = 'month' | '2weeks' | 'year' | 'all' | 'custom';
 
 @Component({
   selector: 'app-overview-date-picker',
@@ -13,10 +17,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   imports: [
     CommonModule,
     MatDatepickerModule,
-    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    SelectInputComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './overview-date-picker.html',
@@ -38,23 +44,23 @@ export class OverviewDatePicker {
   readonly presetControl = new FormControl<string>('month');
 
   readonly presets = [
-    { value: '2weeks', label: '2 Weeks' },
-    { value: 'month', label: 'Month' },
-    { value: 'year', label: 'Year' },
+    { value: '2weeks', label: 'Last 14 Days' },
+    { value: 'month', label: 'Last 30 Days' },
+    { value: 'year', label: 'Last Year' },
     { value: 'all', label: 'All Time' },
+    { value: 'custom', label: 'Custom' },
   ];
 
+  private isUpdatingFromPreset = false;
+
   constructor() {
-    const current = this.range();
-    if (current) {
-      this.rangeForm.patchValue({
-        start: new Date(current.from),
-        end: new Date(current.to),
-      });
-    }
+    this.setPreset('month');
 
     this.rangeForm.valueChanges.subscribe((value) => {
+      if (this.isUpdatingFromPreset) return;
+
       if (value.start && value.end) {
+        this.presetControl.setValue('custom', { emitEvent: false });
         this.rangeChange.emit({
           from: value.start.toISOString(),
           to: value.end.toISOString(),
@@ -63,13 +69,15 @@ export class OverviewDatePicker {
     });
 
     this.presetControl.valueChanges.subscribe((value) => {
-      if (value) {
-        this.setPreset(value as any);
+      if (value && value !== 'custom') {
+        this.setPreset(value as PresetType);
       }
     });
   }
 
-  setPreset(type: 'month' | '2weeks' | 'year' | 'all') {
+  setPreset(type: PresetType) {
+    if (type === 'custom') return;
+    this.isUpdatingFromPreset = true;
     const to = new Date();
     const from = new Date();
 
@@ -93,5 +101,6 @@ export class OverviewDatePicker {
       start: from,
       end: to,
     });
+    this.isUpdatingFromPreset = false;
   }
 }
